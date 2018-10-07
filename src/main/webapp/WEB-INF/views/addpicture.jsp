@@ -8,6 +8,7 @@
 	<input type="file" name="file_img"/>
 	<input type="file" name="file_img"/>
 	<input type="submit" value="submit"/>
+	<h1>github</h1>
 	</form>
 </body>
 </html>
