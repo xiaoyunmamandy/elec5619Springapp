@@ -23,8 +23,8 @@ public class RecipeDAO {
 	
 	public void addRecipe(Recipe recipe) {
 		this.getSession().save(recipe);
-		int id = recipe.getrecipeID();
-		System.out.println(id);
+		//int id = recipe.getrecipeID();
+		//System.out.println(id);
 //		Transaction transaction=null;
 //		transaction=session.beginTransaction();
 //		session.save(recipe);

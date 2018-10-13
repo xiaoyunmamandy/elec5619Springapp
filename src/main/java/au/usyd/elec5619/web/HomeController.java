@@ -76,7 +76,7 @@ public class HomeController {
 		return new ModelAndView("hometest","model",myModel);
 	}
 	
-	//接口实现有问题，没有解决
+	//接口实现有问题，解决
 	@RequestMapping(value = "/test1", method = RequestMethod.GET)
 	public ModelAndView home2() {
 		Map<String, Object> myModel = new HashMap<String, Object>();
@@ -98,13 +98,13 @@ public class HomeController {
 	//添加图片测试 单张图片
 	@RequestMapping(value="/addpicture", method=RequestMethod.POST)
 	public String addpicture(@RequestParam("file_img") MultipartFile file, HttpServletRequest request,HttpServletResponse response) throws Exception, IOException{
-		String localpath = "F:\\ELEC5619\\images";
-		String path = request.getSession().getServletContext().getRealPath("upload");
+		//String localpath = "F:\\ELEC5619\\images";
+		String localpath = request.getSession().getServletContext().getRealPath("img");
 		String originalFilename = file.getOriginalFilename();
 		String newFileName = UUID.randomUUID() + originalFilename.substring(originalFilename.lastIndexOf("."));
 		File newFile = new File(localpath,newFileName);
 		file.transferTo(newFile);
-		System.out.println(path);
+		System.out.println(localpath);
 		System.out.println(originalFilename);
 		System.out.println(newFileName);
 		return "home";
@@ -112,12 +112,13 @@ public class HomeController {
 	//添加多张图片，带service调用
 	@RequestMapping(value="/addpictures", method=RequestMethod.POST)
 	public String addpictures(@RequestParam("dish_img") MultipartFile dishfile,@RequestParam("file_img") MultipartFile[] file, HttpServletRequest request,HttpServletResponse response) throws Exception, IOException{
-		String dishurl = recipecreater.uploadpicture(dishfile);
+		String serverpath = request.getSession().getServletContext().getRealPath("img");
+		String dishurl = recipecreater.uploadpicture(dishfile,serverpath);
 		System.out.println(dishurl);
 		if(file!=null&&file.length>0) {
 			for(int i=0;i<file.length;i++) {
 				MultipartFile thefile = file[i];
-				String url = recipecreater.uploadpicture(thefile);
+				String url = recipecreater.uploadpicture(thefile,serverpath);
 				System.out.println(url);
 			}
 		}

@@ -24,8 +24,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import au.usyd.elec5619.domain.Category;
+import au.usyd.elec5619.domain.Ingredient;
 import au.usyd.elec5619.domain.Recipe;
-import au.usyd.elec5619.domain.Recipetest;
 import au.usyd.elec5619.domain.Step;
 import au.usyd.elec5619.service.Recipecreater;
 import au.usyd.elec5619.service.Testservice;
@@ -70,10 +70,10 @@ public class Recipemanagecontroller {
 	//提交新菜谱
 	@RequestMapping(value="/addrecipe", method=RequestMethod.POST)
 	public String addrecipehandler(HttpServletRequest request,HttpServletResponse response) {
-		Recipe recipe = new Recipe(request.getParameter("recipeName"),Integer.parseInt(request.getParameter("cookTime")),Integer.parseInt(request.getParameter("servepeopleno")),request.getParameter("dishImg"),request.getParameter("tips"),Integer.parseInt(request.getParameter("categoryID")),Integer.parseInt(request.getParameter("userID")));
-		System.out.println(recipe.getcookTime());
-		System.out.println(request.getParameter("recipeName"));
-		testservice.addrecipe(recipe);
+		//Recipe recipe = new Recipe(request.getParameter("recipeName"),Integer.parseInt(request.getParameter("cookTime")),Integer.parseInt(request.getParameter("servepeopleno")),request.getParameter("dishImg"),request.getParameter("tips"),Integer.parseInt(request.getParameter("categoryID")),Integer.parseInt(request.getParameter("userID")));
+		//System.out.println(recipe.getcookTime());
+		//System.out.println(request.getParameter("recipeName"));
+		//testservice.addrecipe(recipe);
 		return "home";
 	}
 	
@@ -111,10 +111,41 @@ public class Recipemanagecontroller {
             System.out.println(name[i]);
             System.out.println(name[i]);
         }
-		Recipetest recipetest = new Recipetest(request.getParameter("recipeName"),Integer.parseInt(request.getParameter("cookTime")),steplist);
-		recipecreater.addrecipe(recipetest);
+		//Recipetest recipetest = new Recipetest(request.getParameter("recipeName"),Integer.parseInt(request.getParameter("cookTime")),steplist);
+		//recipecreater.addrecipe(recipetest);
 		return "home";
 	}
-	
-	
+	//添加完整菜谱
+	@RequestMapping(value="/addrecipetotal", method=RequestMethod.POST)
+	@ResponseBody
+	public String addrecipetotal(HttpServletRequest request,HttpServletResponse response, String[] ingredientName, String[] ingredientAmount, Integer[] stepid, String[] description, @RequestParam("dish_img") MultipartFile dishfile,@RequestParam("steppicture") MultipartFile[] file) throws Exception, IOException {
+		//生成ingredient list
+		List<Ingredient> ingredientlist = new ArrayList<Ingredient>();
+		for (int i = 0; i <ingredientName.length; i++) {
+			Ingredient ingredient = new Ingredient();
+			ingredient.setIngredientName(ingredientName[i]);
+			ingredient.setIngredientAmount(ingredientAmount[i]);
+			ingredientlist.add(ingredient);
+		}
+		//将图片存储到指定文件夹中
+		String serverpath = request.getSession().getServletContext().getRealPath("img");
+		String dishpath = recipecreater.uploadpicture(dishfile,serverpath);
+		//创建step list
+		List<Step> steplist = new ArrayList<Step>();
+		for (int i = 0; i < stepid.length; i++ ) {		
+            Step step = new Step();
+            step.setstepsno(stepid[i]);
+            step.setdescription(description[i]);
+            String imgpath = recipecreater.uploadpicture(file[i], serverpath);
+            System.out.println(imgpath);
+            step.setstepImg(imgpath);
+            steplist.add(step);
+        }
+		//用session获取用户id
+		int userID = 1;
+		Recipe recipe = new Recipe(request.getParameter("recipeName"),Integer.parseInt(request.getParameter("cookTime")),Integer.parseInt(request.getParameter("servepeopleno")),dishpath ,request.getParameter("tips"),Integer.parseInt(request.getParameter("categoryID")), userID ,ingredientlist,steplist);
+		recipecreater.addrecipe(recipe);
+		return "home";
+	}
+
 }

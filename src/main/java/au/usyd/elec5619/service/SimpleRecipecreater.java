@@ -11,15 +11,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import au.usyd.elec5619.DAO.RecipetestDAO;
+import au.usyd.elec5619.DAO.RecipeDAO;
 import au.usyd.elec5619.domain.Recipe;
-import au.usyd.elec5619.domain.Recipetest;
+
 
 @Transactional
 @Service(value="recipecreater")
 public class SimpleRecipecreater implements Recipecreater{
+	
 	@Autowired
-	public RecipetestDAO recipetestDAO;
+	public RecipeDAO recipeDAO;
+	
+	public void setRecipeDAO(RecipeDAO recipeDAO) {
+		this.recipeDAO = recipeDAO;
+	}
+	
+	
 	private List<Recipe> recipes;
 	
 	public List<Recipe> getRecipes(){
@@ -54,17 +61,18 @@ public class SimpleRecipecreater implements Recipecreater{
 		this.recipes = recipes;
 	}
 	
-	public void addrecipe(Recipetest recipetest) {
-		recipetestDAO.addnewrecipe(recipetest);
+	public void addrecipe(Recipe recipe) {
+		recipeDAO.addRecipe(recipe);
 		
 	}
-	public String uploadpicture(MultipartFile file) throws Exception, IOException{
-		String localpath = "F:\\ELEC5619\\images";
+	//将图片文件存到server的制定文件夹中，相对路径。重新部署后文件清空，未解决
+	public String uploadpicture(MultipartFile file, String serverpath) throws Exception, IOException{
+		//String localpath = "D:\\apache-tomcat-8.0.53\\webapps\\elec5619Springapp\\img\\";
 		String originalFilename = file.getOriginalFilename();
 		String newFileName = UUID.randomUUID() + originalFilename.substring(originalFilename.lastIndexOf("."));
-		File newFile = new File(localpath,newFileName);
+		File newFile = new File(serverpath+'\\'+newFileName);
 		file.transferTo(newFile);
-		String url = localpath+'\\'+newFileName;
+		String url = serverpath+newFileName;
 		return url;
 	}
 }

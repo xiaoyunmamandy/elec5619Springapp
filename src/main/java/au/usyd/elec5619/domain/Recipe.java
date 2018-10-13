@@ -1,11 +1,17 @@
 package au.usyd.elec5619.domain;
 
 import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,11 +35,17 @@ public class Recipe implements Serializable {
 	private int categoryID;
 	@Column(name="userID")
 	private int userID;
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,targetEntity=Ingredient.class)  
+    @JoinColumn(name="recipeID",nullable=false) 
+	private List<Ingredient> ingredientlist;
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,targetEntity=Step.class)  
+    @JoinColumn(name="recipeID",nullable=false) 
+	private List<Step> steplist;
 	
 	public Recipe() {
 		super();
 	}
-	public Recipe(String recipeName, int cookTime, int servepeopleno, String dishImg,  String tips, int categoryID, int userID) {
+	public Recipe(String recipeName, int cookTime, int servepeopleno, String dishImg,  String tips, int categoryID, int userID, List<Ingredient> ingredientlist, List<Step> steplist) {
 		super();
 		this.recipeID = recipeID;
 		this.recipeName = recipeName;
@@ -43,6 +55,8 @@ public class Recipe implements Serializable {
 		this.tips = tips;
 		this.categoryID = categoryID;
 		this.userID = userID;
+		this.ingredientlist = ingredientlist;
+		this.steplist = steplist;
 	}
 	public int getrecipeID() {
 		return recipeID;

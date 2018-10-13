@@ -12,7 +12,7 @@ function deletethestep(){
 </script>
 </head>
 <body>
-<form action="/elec5619Springapp/newaddrecipe" method="post">
+<form action="/elec5619Springapp/addrecipetotal" method="post" enctype="multipart/form-data">
 	<table>
 		<tr>
 			<td>recipeName:</td>
@@ -21,20 +21,51 @@ function deletethestep(){
 		<tr>
 			<td>cookTime:</td>
 			<td><input type="text" name="cookTime"/></td>
-		</tr>			
+		</tr>
+		<tr>
+			<td>servepeopleno:</td>
+			<td><input type="text" name="servepeopleno"/></td>
+		</tr>
+		<tr>
+			<td>tips:</td>
+			<td><input type="text" name="tips"/></td>
+		</tr>
+		<tr>
+			<td>categoryID:</td>
+			<td><form:select path="category" name="categoryID">
+			<c:forEach items="${category}" var="category">
+				<form:option value="${category.categoryID }"> ${category.categoryName }</form:option>
+			</c:forEach>
+				</form:select>
+			</td>
+		</tr>
+		<tr>
+			<td>dish image</td>
+			<td><input type="file" name="dish_img"/></td>			
 	</table>
-	<div id="stepbox">
-	 ID:<input type="text" name="id"><br/>
-        Username:<input type="text" name="name"><br/>
-        Password:<input type="text" name="pwd"><br/><br/>
+	<div id="ingredientsbox">
+	    Ingredient name:<input type="text" name="ingredientName"><br/>
+        Amount:<input type="text" name="ingredientAmount"><br/>
 
-        ID:<input type="text" name="id"><br/>
-        Username:<input type="text" name="name"><br/>
-        Password:<input type="text" name="pwd"><br/><br/>
+        Ingredient name:<input type="text" name="ingredientName"><br/>
+        Amount:<input type="text" name="ingredientAmount"><br/>
         
-        ID:<input type="text" name="id"><br/>
-        Username:<input type="text" name="name"><br/>
-        Password:<input type="text" name="pwd"><br/><br/>
+        Ingredient name:<input type="text" name="ingredientName"><br/>
+        Amount:<input type="text" name="ingredientAmount"><br/>
+     </div>
+     
+	<div id="stepbox">
+	 StepNO<input type="text" name="stepid"><br/>
+        Description:<input type="text" name="description"><br/>
+        Picture:<input type="file" name="steppicture"><br/><br/>
+
+        StepNo:<input type="text" name="stepid"><br/>
+        Description:<input type="text" name="description"><br/>
+        Picture:<input type="file" name="steppicture"><br/><br/>
+        
+        StepNo:<input type="text" name="stepid"><br/>
+        Description:<input type="text" name="description"><br/>
+        Picture:<input type="file" name="steppicture"><br/><br/>
      </div>
     <input type="button" value="add step" onclick="addstep();"/>
 	<input type="submit" value="submit"/>
