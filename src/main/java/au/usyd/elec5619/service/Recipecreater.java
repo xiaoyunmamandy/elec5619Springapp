@@ -18,7 +18,7 @@ public interface Recipecreater extends Serializable{
 	public String test();
 	public void addrecipe(Recipe recipe);
 	public String uploadpicture(MultipartFile file,String serverpath)throws Exception, IOException;
-
-	
+    public void updaterecipe(Recipe recipe);
+	public void deleterecipe(int recipeID);
 	
 }

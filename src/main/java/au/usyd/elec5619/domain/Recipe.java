@@ -14,6 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table(name="Recipes")
 public class Recipe implements Serializable {
@@ -35,11 +38,18 @@ public class Recipe implements Serializable {
 	private int categoryID;
 	@Column(name="userID")
 	private int userID;
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,targetEntity=Ingredient.class)  
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER,targetEntity=Ingredient.class)  
     @JoinColumn(name="recipeID",nullable=false) 
 	private List<Ingredient> ingredientlist;
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,targetEntity=Step.class)  
-    @JoinColumn(name="recipeID",nullable=false) 
+	public List<Ingredient> getIngredientlist() {
+		return ingredientlist;
+	}
+	public void setIngredientlist(List<Ingredient> ingredientlist) {
+		this.ingredientlist = ingredientlist;
+	}
+	
+	@OneToMany(cascade=CascadeType.ALL,targetEntity=Step.class,fetch=FetchType.LAZY)  
+    @JoinColumn(name="recipeID",nullable=false)
 	private List<Step> steplist;
 	
 	public Recipe() {
@@ -56,6 +66,12 @@ public class Recipe implements Serializable {
 		this.categoryID = categoryID;
 		this.userID = userID;
 		this.ingredientlist = ingredientlist;
+		this.steplist = steplist;
+	}
+	public List<Step> getSteplist() {
+		return steplist;
+	}
+	public void setSteplist(List<Step> steplist) {
 		this.steplist = steplist;
 	}
 	public int getrecipeID() {

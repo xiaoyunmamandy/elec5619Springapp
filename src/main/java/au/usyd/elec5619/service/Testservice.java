@@ -11,6 +11,7 @@ import au.usyd.elec5619.DAO.CategoryDAO;
 import au.usyd.elec5619.DAO.RecipeDAO;
 import au.usyd.elec5619.domain.Category;
 import au.usyd.elec5619.domain.Recipe;
+import au.usyd.elec5619.domain.Step;
 @Transactional
 @Service
 public class Testservice {
@@ -55,6 +56,9 @@ public class Testservice {
 	
 	public Recipe getrecipebyID(int recipeID) {
 		Recipe recipe = recipeDAO.getrecipebyID(recipeID);
+		List<Step> steplist = recipeDAO.getallstepsforrecipe(recipeID);
+		recipe.setSteplist(steplist);
+		System.out.println(steplist.get(0).getdescription());
 		return recipe;
 	}
 	

@@ -10,5 +10,6 @@
 	<input type="submit" value="submit"/>
 	<h1>github</h1>
 	</form>
+	<input type="button" onclick="redirect:home"/>
 </body>
 </html>

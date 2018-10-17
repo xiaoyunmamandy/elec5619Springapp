@@ -68,7 +68,7 @@ public class Recipemanagecontroller {
 	}
 	
 	//提交新菜谱
-	@RequestMapping(value="/addrecipe", method=RequestMethod.POST)
+	@RequestMapping(value="/home", method=RequestMethod.GET)
 	public String addrecipehandler(HttpServletRequest request,HttpServletResponse response) {
 		//Recipe recipe = new Recipe(request.getParameter("recipeName"),Integer.parseInt(request.getParameter("cookTime")),Integer.parseInt(request.getParameter("servepeopleno")),request.getParameter("dishImg"),request.getParameter("tips"),Integer.parseInt(request.getParameter("categoryID")),Integer.parseInt(request.getParameter("userID")));
 		//System.out.println(recipe.getcookTime());
@@ -85,8 +85,16 @@ public class Recipemanagecontroller {
 	@RequestMapping(value="/getrecipebyidresult", method=RequestMethod.POST)
 	public ModelAndView getrecipebyidresult(HttpServletRequest request,HttpServletResponse response) {
 		Recipe recipe = testservice.getrecipebyID(Integer.parseInt(request.getParameter("getrecipebyID")));
+		List<Ingredient> ingredientlist = recipe.getIngredientlist();
+		List<Step> steplist = recipe.getSteplist();
 		Map<String, Object> myModel = new HashMap<String, Object>();
 		myModel.put("recipes", recipe);
+		myModel.put("ingredients", ingredientlist);
+		myModel.put("steps", steplist);
+		Step step = steplist.get(0);
+		System.out.println(step.getdescription());
+		Ingredient ingre = ingredientlist.get(0);
+		System.out.println(ingre.getIngredientName());
 		return new ModelAndView("thereciperesult","model",myModel);
 	}
 	
@@ -118,7 +126,7 @@ public class Recipemanagecontroller {
 	//添加完整菜谱
 	@RequestMapping(value="/addrecipetotal", method=RequestMethod.POST)
 	@ResponseBody
-	public String addrecipetotal(HttpServletRequest request,HttpServletResponse response, String[] ingredientName, String[] ingredientAmount, Integer[] stepid, String[] description, @RequestParam("dish_img") MultipartFile dishfile,@RequestParam("steppicture") MultipartFile[] file) throws Exception, IOException {
+	public String addrecipetotal(HttpServletRequest request,HttpServletResponse response, String[] ingredientName, String[] ingredientAmount, Integer[] stepid, String[] description, @RequestParam("dish_img") MultipartFile dishfile,@RequestParam("steppicture") MultipartFile[] file)  throws Exception, IOException {
 		//生成ingredient list
 		List<Ingredient> ingredientlist = new ArrayList<Ingredient>();
 		for (int i = 0; i <ingredientName.length; i++) {
@@ -145,6 +153,72 @@ public class Recipemanagecontroller {
 		int userID = 1;
 		Recipe recipe = new Recipe(request.getParameter("recipeName"),Integer.parseInt(request.getParameter("cookTime")),Integer.parseInt(request.getParameter("servepeopleno")),dishpath ,request.getParameter("tips"),Integer.parseInt(request.getParameter("categoryID")), userID ,ingredientlist,steplist);
 		recipecreater.addrecipe(recipe);
+		return "home";
+	}
+	//加载更新页面 需要recipeid
+	@RequestMapping(value="/updatepage", method=RequestMethod.GET)
+	public ModelAndView updatepage(HttpServletRequest request,HttpServletResponse response) {
+		Recipe recipe = testservice.getrecipebyID(2);
+		List<Ingredient> ingredientlist = recipe.getIngredientlist();
+		List<Step> steplist = recipe.getSteplist();
+		Map<String, Object> myModel = new HashMap<String, Object>();
+		myModel.put("recipes", recipe);
+		myModel.put("ingredients", ingredientlist);
+		myModel.put("steps", steplist);
+		return new ModelAndView("updaterecipe","model",myModel);
+	}
+	//更新菜谱
+	@RequestMapping(value="/updaterecipe", method=RequestMethod.POST)
+	public String updaterecipe(HttpServletRequest request,HttpServletResponse response, Integer[] ingredientID, String[] ingredientName, String[] ingredientAmount, Integer[] stepsID, Integer[] stepid, String[] description, String[] originstepImg, @RequestParam("dish_img") MultipartFile dishfile,@RequestParam("steppicture") MultipartFile[] file) throws Exception, IOException{
+		List<Ingredient> ingredientlist = new ArrayList<Ingredient>();
+		for (int i = 0; i <ingredientName.length; i++) {
+			Ingredient ingredient = new Ingredient();
+			ingredient.setIngredientID(ingredientID[i]);
+			ingredient.setIngredientName(ingredientName[i]);
+			ingredient.setIngredientAmount(ingredientAmount[i]);
+			ingredientlist.add(ingredient);
+		}
+		//判断是否需要更新照片
+		String serverpath = request.getSession().getServletContext().getRealPath("img");
+		String dishpath;
+		String filename = dishfile.getOriginalFilename();
+		System.out.println(filename);
+		if(dishfile.getOriginalFilename()!="") {
+			System.out.println(1);
+			dishpath = recipecreater.uploadpicture(dishfile,serverpath);
+		}
+		else {
+			dishpath = request.getParameter("origindishImg");
+			System.out.println(2);
+		}
+		List<Step> steplist = new ArrayList<Step>();
+		for (int i = 0; i < stepid.length; i++ ) {		
+            Step step = new Step();
+            step.setstepsID(stepsID[i]);
+            step.setstepsno(stepid[i]);
+            step.setdescription(description[i]);
+            if(file[i].getOriginalFilename()!="") {
+            	String imgpath = recipecreater.uploadpicture(file[i], serverpath);
+            	step.setstepImg(imgpath);
+            }
+            else {
+            	String imgpath = originstepImg[i];
+            	step.setstepImg(imgpath);
+            }
+            steplist.add(step);
+        }
+		int userID = 1;
+		Recipe recipe = new Recipe(request.getParameter("recipeName"),Integer.parseInt(request.getParameter("cookTime")),Integer.parseInt(request.getParameter("servepeopleno")),dishpath ,request.getParameter("tips"),Integer.parseInt(request.getParameter("categoryID")), userID ,ingredientlist,steplist);
+		recipe.setrecipeID(Integer.parseInt(request.getParameter("recipeID")));
+		recipecreater.updaterecipe(recipe);
+		return "home";
+	}
+	
+	@RequestMapping(value="/deleterecipe", method=RequestMethod.POST)
+	public String deleterecipe(HttpServletRequest request,HttpServletResponse response) {
+		String recipeID = request.getParameter("recipeID");
+		System.out.println("cccc"+recipeID);
+		recipecreater.deleterecipe(Integer.parseInt(recipeID));
 		return "home";
 	}
 

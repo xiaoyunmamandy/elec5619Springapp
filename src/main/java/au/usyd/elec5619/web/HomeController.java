@@ -95,7 +95,7 @@ public class HomeController {
 	public String showcreaterecipepic() {
 		return "addpicture";
 	}
-	//添加图片测试 单张图片
+	//添加图片测试 单张图片 在controller里面
 	@RequestMapping(value="/addpicture", method=RequestMethod.POST)
 	public String addpicture(@RequestParam("file_img") MultipartFile file, HttpServletRequest request,HttpServletResponse response) throws Exception, IOException{
 		//String localpath = "F:\\ELEC5619\\images";

@@ -65,14 +65,25 @@ public class SimpleRecipecreater implements Recipecreater{
 		recipeDAO.addRecipe(recipe);
 		
 	}
-	//将图片文件存到server的制定文件夹中，相对路径。重新部署后文件清空，未解决
+	//将图片文件存到server的制定文件夹中
 	public String uploadpicture(MultipartFile file, String serverpath) throws Exception, IOException{
 		//String localpath = "D:\\apache-tomcat-8.0.53\\webapps\\elec5619Springapp\\img\\";
+		String localpath = "F:\\ELEC5619\\images";
 		String originalFilename = file.getOriginalFilename();
 		String newFileName = UUID.randomUUID() + originalFilename.substring(originalFilename.lastIndexOf("."));
-		File newFile = new File(serverpath+'\\'+newFileName);
+		File newFile = new File(localpath,newFileName);
+		//File newFile = new File(serverpath+'\\'+newFileName);
 		file.transferTo(newFile);
-		String url = serverpath+newFileName;
+		String url = newFileName;
 		return url;
+	}
+	
+	//修改菜谱
+	public void updaterecipe(Recipe recipe) {
+		recipeDAO.updateRecipe(recipe);
+	}
+	//删除菜谱
+	public void deleterecipe(int recipeID) {
+		recipeDAO.deleteRecipe(recipeID);
 	}
 }
