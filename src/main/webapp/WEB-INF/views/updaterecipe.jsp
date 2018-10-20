@@ -2,6 +2,7 @@
 <html>
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="resources/css/recipepage.css"/>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#categorieslist").val(${model.recipes.categoryID});
@@ -9,7 +10,6 @@ $(document).ready(function(){
 		$.post("${pageContext.request.contextPath}/deleterecipe",{recipeID:$("#recipeid").val()},function(){
 			window.location.href="\home";
 		});
-		window.alert("delete button");
 	})
 })
 
@@ -17,7 +17,12 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+<div class="topbar">111</div>
 <form action="/elec5619Springapp/updaterecipe" method="post" enctype="multipart/form-data">
+	<div class="row">
+		<div class="col-xs-5"><img src="/imgUrl/${model.recipes.dishImg }" height="250px" width="300px"/></div>
+		<div class="col-xs-7"></div>
+	</div>
 <input type="hidden" name="recipeID" value="${model.recipes.recipeID }" id="recipeid"/>
 <table>
 	<tr>
@@ -51,7 +56,7 @@ $(document).ready(function(){
 	<tr>
 		<td>dish picture:</td>
 		<td><input type="file" name="dish_img"/></td>
-		<td><img src="/imgUrl/${model.recipes.dishImg }"/><input type="hidden" value="${model.recipes.dishImg }" name="origindishImg"/></td>
+		<td><img src="/imgUrl/${model.recipes.dishImg }" height="150px" width="200px"/><input type="hidden" value="${model.recipes.dishImg }" name="origindishImg"/></td>
 	</tr>
 </table>
 <c:forEach items="${model.ingredients }" var="ingredient">
@@ -62,9 +67,9 @@ $(document).ready(function(){
 <c:forEach items="${model.steps }" var="step">
 	<input type="hidden" name="stepsID" value="${step.stepsID }"/>
 	<input type="text" name="stepid" value="${step.stepsno }"/>
-	<input type="file" name="steppicture"/>
 	<input type="text" name="description" value="${step.description }"/>
-	<img src="/imgUrl/${step.stepImg }"/><input type="hidden" value="${step.stepImg }" name="originstepImg"/></br>
+	<input type="file" name="steppicture"/>
+	<img src="/imgUrl/${step.stepImg }" height="150px" width="200px"/><input type="hidden" value="${step.stepImg }" name="originstepImg"/></br>
 </c:forEach>
 <input type="submit" value="update"/>
 <input type="button" value="delete" id="delete"/>

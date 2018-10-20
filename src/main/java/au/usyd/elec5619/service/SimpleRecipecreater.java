@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import au.usyd.elec5619.DAO.CategoryDAO;
 import au.usyd.elec5619.DAO.RecipeDAO;
 import au.usyd.elec5619.domain.Recipe;
 
@@ -21,6 +22,9 @@ public class SimpleRecipecreater implements Recipecreater{
 	
 	@Autowired
 	public RecipeDAO recipeDAO;
+	
+	@Autowired
+	public CategoryDAO categoryDAO;
 	
 	public void setRecipeDAO(RecipeDAO recipeDAO) {
 		this.recipeDAO = recipeDAO;
@@ -85,5 +89,26 @@ public class SimpleRecipecreater implements Recipecreater{
 	//删除菜谱
 	public void deleterecipe(int recipeID) {
 		recipeDAO.deleteRecipe(recipeID);
+	}
+	
+	//得到所有菜谱
+	public List<Recipe> getallrecipes(){
+		List<Recipe> recipelist = recipeDAO.getallrecipes();
+		return recipelist;
+	}
+	public String getcategoryname(int id) {
+		String categoryName = categoryDAO.getcategorynamebyID(id);
+		return categoryName;
+	}
+	
+	//按类别查菜谱
+	public List<Recipe> getrecipebycategory(int categoryID){
+		List<Recipe> recipelist = recipeDAO.getrecipebycategory(categoryID);
+		return recipelist;
+	}
+	//查询用户发布过的信息
+	public List<Recipe> getrecipebyuser(int userID){
+		List<Recipe> recipelist = recipeDAO.getrecipebyuser(userID);
+		return recipelist;
 	}
 }

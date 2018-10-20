@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -126,7 +127,7 @@ public class Recipemanagecontroller {
 	//添加完整菜谱
 	@RequestMapping(value="/addrecipetotal", method=RequestMethod.POST)
 	@ResponseBody
-	public String addrecipetotal(HttpServletRequest request,HttpServletResponse response, String[] ingredientName, String[] ingredientAmount, Integer[] stepid, String[] description, @RequestParam("dish_img") MultipartFile dishfile,@RequestParam("steppicture") MultipartFile[] file)  throws Exception, IOException {
+	public String addrecipetotal(HttpServletRequest request,HttpServletResponse response, String[] ingredientName, String[] ingredientAmount, String[] description, @RequestParam("dish_img") MultipartFile dishfile,@RequestParam("steppicture") MultipartFile[] file)  throws Exception, IOException {
 		//生成ingredient list
 		List<Ingredient> ingredientlist = new ArrayList<Ingredient>();
 		for (int i = 0; i <ingredientName.length; i++) {
@@ -140,14 +141,16 @@ public class Recipemanagecontroller {
 		String dishpath = recipecreater.uploadpicture(dishfile,serverpath);
 		//创建step list
 		List<Step> steplist = new ArrayList<Step>();
-		for (int i = 0; i < stepid.length; i++ ) {		
+		for (int i = 0; i < description.length; i++ ) {		
             Step step = new Step();
-            step.setstepsno(stepid[i]);
+            int stepid=1;
+            step.setstepsno(stepid);
             step.setdescription(description[i]);
             String imgpath = recipecreater.uploadpicture(file[i], serverpath);
             System.out.println(imgpath);
             step.setstepImg(imgpath);
             steplist.add(step);
+            stepid++;
         }
 		//用session获取用户id
 		int userID = 1;
@@ -156,9 +159,9 @@ public class Recipemanagecontroller {
 		return "home";
 	}
 	//加载更新页面 需要recipeid
-	@RequestMapping(value="/updatepage", method=RequestMethod.GET)
-	public ModelAndView updatepage(HttpServletRequest request,HttpServletResponse response) {
-		Recipe recipe = testservice.getrecipebyID(2);
+	@RequestMapping(value="/updatepage/{recipeID}", method=RequestMethod.GET)
+	public ModelAndView updatepage(@PathVariable("recipeID") int recipeID, HttpServletRequest request,HttpServletResponse response) {
+		Recipe recipe = testservice.getrecipebyID(recipeID);
 		List<Ingredient> ingredientlist = recipe.getIngredientlist();
 		List<Step> steplist = recipe.getSteplist();
 		Map<String, Object> myModel = new HashMap<String, Object>();
@@ -214,12 +217,59 @@ public class Recipemanagecontroller {
 		return "home";
 	}
 	
-	@RequestMapping(value="/deleterecipe", method=RequestMethod.POST)
-	public String deleterecipe(HttpServletRequest request,HttpServletResponse response) {
-		String recipeID = request.getParameter("recipeID");
-		System.out.println("cccc"+recipeID);
-		recipecreater.deleterecipe(Integer.parseInt(recipeID));
+	//删除菜谱
+	@RequestMapping(value="/deleterecipe/{recipeID}", method=RequestMethod.GET)
+	public String deleterecipe(@PathVariable("recipeID") int recipeID, HttpServletRequest request,HttpServletResponse response) {
+		//String recipeID = request.getParameter("recipeID");
+		//System.out.println("cccc"+recipeID);
+		recipecreater.deleterecipe(recipeID);
 		return "home";
+	}
+	
+	@RequestMapping(value="/allrecipes", method=RequestMethod.GET)
+	public ModelAndView getallrecipes(HttpServletRequest request,HttpServletResponse response) {
+		List<Recipe> recipelist = recipecreater.getallrecipes();
+		Map<String, Object> myModel = new HashMap<String, Object>();
+		myModel.put("recipes", recipelist);
+		return new ModelAndView("showrecipes","model",myModel);
+	}
+	
+	//显示菜谱详情
+	@RequestMapping(value="/recipedetails/{id}", method=RequestMethod.GET)
+	public ModelAndView showrecipedetails(@PathVariable("id") int id) {
+		Recipe recipe = testservice.getrecipebyID(id);
+		String categoryName = recipecreater.getcategoryname(recipe.getcategoryID());
+		List<Ingredient> ingredientlist = recipe.getIngredientlist();
+		List<Step> steplist = recipe.getSteplist();
+		Map<String, Object> myModel = new HashMap<String, Object>();
+		myModel.put("recipes", recipe);
+		myModel.put("ingredients", ingredientlist);
+		myModel.put("steps", steplist);
+		myModel.put("categoryName", categoryName);
+		return new ModelAndView("recipedetail","model",myModel);
+	}
+	
+	//按类别查菜谱
+	@RequestMapping(value="/categoryrecipe/{categoryID}", method=RequestMethod.GET)
+	public ModelAndView getrecipebycategory(@PathVariable("categoryID") int categoryID) {
+		//String categoryID = request.getParameter("categoryID");
+		System.out.println(categoryID);
+		//String categoryID = "4";
+		List<Recipe> recipelist = recipecreater.getrecipebycategory(categoryID);
+		Map<String, Object> myModel = new HashMap<String, Object>();
+		myModel.put("recipes", recipelist);
+		Recipe recipe = recipelist.get(0);
+		System.out.println(recipe.getrecipeName());
+		System.out.println("1111");
+		return new ModelAndView("showrecipes","model",myModel);
+	}
+	//查询用户发布信息
+	@RequestMapping(value="/userrecipe/{userID}", method=RequestMethod.GET)
+	public ModelAndView getrecipebyuser(@PathVariable("userID") int userID) {
+		List<Recipe> recipelist = recipecreater.getrecipebyuser(userID);
+		Map<String, Object> myModel = new HashMap<String, Object>();
+		myModel.put("recipes", recipelist);
+		return new ModelAndView("showrecipesbyuser","model",myModel);
 	}
 
 }

@@ -1,0 +1,19 @@
+.topbar{
+height:70px;
+background-color:#5553E4;
+margin-bottom:10px;
+}
+
+body {
+	margin-left:20px;
+	margin-right:20px;
+	font-size:15px;
+}
+
+#ingredientsdiv,#stepdiv{
+	text-align:center;
+}
+
+#ingredientsbox,#stepbox{
+	margin:auto;
+}
