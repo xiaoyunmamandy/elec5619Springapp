@@ -13,7 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import au.usyd.elec5619.DAO.CategoryDAO;
 import au.usyd.elec5619.DAO.RecipeDAO;
+import au.usyd.elec5619.domain.Category;
 import au.usyd.elec5619.domain.Recipe;
+import au.usyd.elec5619.domain.Step;
 
 
 @Transactional
@@ -69,6 +71,12 @@ public class SimpleRecipecreater implements Recipecreater{
 		recipeDAO.addRecipe(recipe);
 		
 	}
+	//得到所有category
+	public List<Category> getallcategories(){
+		List<Category> category = new ArrayList<Category>();
+		category = categoryDAO.getallcategories();
+		return category;
+	}
 	//将图片文件存到server的制定文件夹中
 	public String uploadpicture(MultipartFile file, String serverpath) throws Exception, IOException{
 		//String localpath = "D:\\apache-tomcat-8.0.53\\webapps\\elec5619Springapp\\img\\";
@@ -101,6 +109,14 @@ public class SimpleRecipecreater implements Recipecreater{
 		return categoryName;
 	}
 	
+	//按照id查询菜谱包括step，ingredients
+	public Recipe getrecipebyID(int recipeID) {
+		Recipe recipe = recipeDAO.getrecipebyID(recipeID);
+		List<Step> steplist = recipeDAO.getallstepsforrecipe(recipeID);
+		recipe.setSteplist(steplist);
+		System.out.println(steplist.get(0).getdescription());
+		return recipe;
+	}
 	//按类别查菜谱
 	public List<Recipe> getrecipebycategory(int categoryID){
 		List<Recipe> recipelist = recipeDAO.getrecipebycategory(categoryID);

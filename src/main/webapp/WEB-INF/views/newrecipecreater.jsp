@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/views/include.jsp" %>
 <html>
 <head><title>Hello :: Spring Application for recipe sharing</title>
-<link rel="stylesheet" type="text/css" href="resources/css/recipepage.css"/>
+<style type="text/css">@import url("<c:url value='/resources/css/recipepage.css'/>");</style>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript">
 var stepnumber = 4
@@ -25,7 +25,7 @@ function addingredient(){
 	<a href="https://www.baidu.com/">Back to homepage</a>
 </div>
 
-<form action="/elec5619Springapp/addrecipetotal" method="post" enctype="multipart/form-data">
+<form action="/elec5619Springapp/recipe/addrecipetotal" method="post" enctype="multipart/form-data">
 	<div>recipeName:<input type="text" name="recipeName"/></div>
 	<div class="row">
 		<div class="col-xs-8" id="ingredientsdiv">

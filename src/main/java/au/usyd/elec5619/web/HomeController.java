@@ -24,16 +24,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import au.usyd.elec5619.service.Recipecreater;
-import au.usyd.elec5619.service.Testservice;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class HomeController {
-	@Autowired
-	private Testservice testservice;
-	
 	@Autowired
 	private Recipecreater recipecreater;
 	
@@ -59,55 +55,10 @@ public class HomeController {
 		
 		return "home";
 	}
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public ModelAndView home1() {
-		Map<String, Object> myModel = new HashMap<String, Object>();
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
-		
-		String formattedDate = dateFormat.format(date);
-		myModel.put("serverTime", formattedDate);
-		String message = testservice.testmethod();
-		System.out.println(message);
-
-		myModel.put("welcome", message);
-		myModel.put("recipes", testservice.getRecipes());
-		return new ModelAndView("hometest","model",myModel);
-	}
 	
-	//接口实现有问题，解决
-	@RequestMapping(value = "/test1", method = RequestMethod.GET)
-	public ModelAndView home2() {
-		Map<String, Object> myModel = new HashMap<String, Object>();
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
-		
-		String formattedDate = dateFormat.format(date);
-		myModel.put("serverTime", formattedDate);
-		myModel.put("welcome", "welcome page");
-		// setRecipecreater(recipecreater);
-		myModel.put("recipes", recipecreater.getRecipes());
-		return new ModelAndView("hometest","model",myModel);
-	}
 	@RequestMapping(value="/addpictureform", method=RequestMethod.GET)
 	public String showcreaterecipepic() {
 		return "addpicture";
-	}
-	//添加图片测试 单张图片 在controller里面
-	@RequestMapping(value="/addpicture", method=RequestMethod.POST)
-	public String addpicture(@RequestParam("file_img") MultipartFile file, HttpServletRequest request,HttpServletResponse response) throws Exception, IOException{
-		//String localpath = "F:\\ELEC5619\\images";
-		String localpath = request.getSession().getServletContext().getRealPath("img");
-		String originalFilename = file.getOriginalFilename();
-		String newFileName = UUID.randomUUID() + originalFilename.substring(originalFilename.lastIndexOf("."));
-		File newFile = new File(localpath,newFileName);
-		file.transferTo(newFile);
-		System.out.println(localpath);
-		System.out.println(originalFilename);
-		System.out.println(newFileName);
-		return "home";
 	}
 	//添加多张图片，带service调用
 	@RequestMapping(value="/addpictures", method=RequestMethod.POST)

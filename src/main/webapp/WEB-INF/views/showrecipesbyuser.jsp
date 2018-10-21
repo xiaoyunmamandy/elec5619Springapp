@@ -23,8 +23,8 @@ function deletecheck(){
 			<tr>
 				<td>${recipe.recipeName }</td>
 				<td>${recipe.cookTime} mins</td>
-				<td><a href="${pageContext.request.contextPath}/updatepage/${recipe.recipeID }"> see detail</a>
-					<a href="${pageContext.request.contextPath}/deleterecipe/${recipe.recipeID }" onclick="return deletecheck();">delete</a>
+				<td><a href="${pageContext.request.contextPath}/recipe/updatepage/${recipe.recipeID }"> update</a>
+					<a href="${pageContext.request.contextPath}/recipe/deleterecipe/${recipe.recipeID }" onclick="return deletecheck();">delete</a>
 				</td>
 			</tr>
 		</c:forEach>

@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import au.usyd.elec5619.domain.Category;
 import au.usyd.elec5619.domain.Recipe;
 
 
@@ -24,5 +25,7 @@ public interface Recipecreater extends Serializable{
 	public String getcategoryname(int id);
 	public List<Recipe> getrecipebycategory(int categoryID);
 	public List<Recipe> getrecipebyuser(int userID);
+	public Recipe getrecipebyID(int recipeID);
+	public List<Category> getallcategories();
 	
 }
