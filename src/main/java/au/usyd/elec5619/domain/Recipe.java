@@ -13,9 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="Recipes")
@@ -25,9 +27,12 @@ public class Recipe implements Serializable {
 	@Column(name="recipeID", nullable=false,unique=true)
 	private int recipeID;
 	@Column(name="recipeName")
+	@NotEmpty(message="the recipe name can't be empty!")
 	private String recipeName;
+	@NotNull(message="please enter the required cook time")
 	@Column(name="cookTime")
 	private int cookTime;
+	@NotNull(message="how many people does this recipe design for")
 	@Column(name="servepeopleno")
 	private int servepeopleno;
 	@Column(name="dishImg")

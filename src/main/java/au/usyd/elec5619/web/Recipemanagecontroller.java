@@ -12,9 +12,13 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +49,6 @@ public class Recipemanagecontroller {
 		return category;
 	}
 	
-	
 	//加载recipe form
 	@RequestMapping(value="/showcreaterecipeform", method=RequestMethod.GET)
 	public String showcreaterecipeform() {
@@ -55,36 +58,42 @@ public class Recipemanagecontroller {
 	@RequestMapping(value="/addrecipetotal", method=RequestMethod.POST)
 	@ResponseBody
 	public String addrecipetotal(HttpServletRequest request,HttpServletResponse response, String[] ingredientName, String[] ingredientAmount, String[] description, @RequestParam("dish_img") MultipartFile dishfile,@RequestParam("steppicture") MultipartFile[] file)  throws Exception, IOException {
-		//生成ingredient list
-		List<Ingredient> ingredientlist = new ArrayList<Ingredient>();
-		for (int i = 0; i <ingredientName.length; i++) {
-			Ingredient ingredient = new Ingredient();
-			ingredient.setIngredientName(ingredientName[i]);
-			ingredient.setIngredientAmount(ingredientAmount[i]);
-			ingredientlist.add(ingredient);
-		}
-		//将图片存储到指定文件夹中
-		String serverpath = request.getSession().getServletContext().getRealPath("img");
-		String dishpath = recipecreater.uploadpicture(dishfile,serverpath);
-		//创建step list
-		List<Step> steplist = new ArrayList<Step>();
-		for (int i = 0; i < description.length; i++ ) {		
-            Step step = new Step();
-            int stepid=1;
-            step.setstepsno(stepid);
-            step.setdescription(description[i]);
-            String imgpath = recipecreater.uploadpicture(file[i], serverpath);
-            System.out.println(imgpath);
+			//生成ingredient list
+			List<Ingredient> ingredientlist = new ArrayList<Ingredient>();
+			for (int i = 0; i <ingredientName.length; i++) {
+				Ingredient ingredient = new Ingredient();
+				ingredient.setIngredientName(ingredientName[i]);
+				ingredient.setIngredientAmount(ingredientAmount[i]);
+				ingredientlist.add(ingredient);
+			}
+			//将图片存储到指定文件夹中
+			String serverpath = request.getSession().getServletContext().getRealPath("img");
+			String dishpath = recipecreater.uploadpicture(dishfile,serverpath);
+			//创建step list
+			List<Step> steplist = new ArrayList<Step>();
+			for (int i = 0; i < description.length; i++ ) {		
+	            Step step = new Step();
+	            int stepid=1;
+	            step.setstepsno(stepid);
+	            step.setdescription(description[i]);
+	            String imgpath;
+	            if(file[i].getOriginalFilename()=="") {
+	            	imgpath="";
+	            }
+	            else {
+	            	imgpath = recipecreater.uploadpicture(file[i], serverpath);
+	            }	           
             step.setstepImg(imgpath);
-            steplist.add(step);
-            stepid++;
-        }
-		//用session获取用户id
-		int userID = 1;
-		Recipe recipe = new Recipe(request.getParameter("recipeName"),Integer.parseInt(request.getParameter("cookTime")),Integer.parseInt(request.getParameter("servepeopleno")),dishpath ,request.getParameter("tips"),Integer.parseInt(request.getParameter("categoryID")), userID ,ingredientlist,steplist);
-		recipecreater.addrecipe(recipe);
-		return "home";
+	            steplist.add(step);
+	            stepid++;
+	        }
+			//用session获取用户id
+			int userID = 1;
+			Recipe recipe1 = new Recipe(request.getParameter("recipeName"),Integer.parseInt(request.getParameter("cookTime")),Integer.parseInt(request.getParameter("servepeopleno")),dishpath ,request.getParameter("tips"),Integer.parseInt(request.getParameter("categoryID")), userID ,ingredientlist,steplist);
+			recipecreater.addrecipe(recipe1);
+			return "home";	
 	}
+	
 	//加载更新页面 需要recipeid
 	@RequestMapping(value="/updatepage/{recipeID}", method=RequestMethod.GET)
 	public ModelAndView updatepage(@PathVariable("recipeID") int recipeID, HttpServletRequest request,HttpServletResponse response) {
@@ -95,6 +104,7 @@ public class Recipemanagecontroller {
 		myModel.put("recipes", recipe);
 		myModel.put("ingredients", ingredientlist);
 		myModel.put("steps", steplist);
+		myModel.put("categoryID", recipe.getcategoryID());
 		return new ModelAndView("updaterecipe","model",myModel);
 	}
 	//更新菜谱
@@ -162,6 +172,7 @@ public class Recipemanagecontroller {
 		Map<String, Object> myModel = new HashMap<String, Object>();
 		myModel.put("recipes", recipelist);
 		myModel.put("categoryid", 0);
+		myModel.put("cooktime", 0);
 		request.getSession().setAttribute("username", "xiaoyunma");
 		return new ModelAndView("showrecipes","model",myModel);
 		
@@ -182,6 +193,7 @@ public class Recipemanagecontroller {
 		HttpSession session = request.getSession(true);
 		String username = (String)session.getAttribute("username");
 		System.out.println(username);
+		myModel.put("username", username);
 		return new ModelAndView("recipedetail","model",myModel);
 	}
 	
@@ -195,6 +207,7 @@ public class Recipemanagecontroller {
 		Map<String, Object> myModel = new HashMap<String, Object>();
 		myModel.put("recipes", recipelist);
 		myModel.put("categoryid", categoryID);
+		myModel.put("cooktime", 0);
 		return new ModelAndView("showrecipes","model",myModel);
 	}
 	//查询用户发布信息
@@ -204,6 +217,26 @@ public class Recipemanagecontroller {
 		Map<String, Object> myModel = new HashMap<String, Object>();
 		myModel.put("recipes", recipelist);
 		return new ModelAndView("showrecipesbyuser","model",myModel);
+	}
+	//按时间查菜谱
+	@RequestMapping(value="/cooktimerecipe/{cooktime}", method=RequestMethod.GET)
+	public ModelAndView getrecipebycooktime(@PathVariable("cooktime") int cooktime) {
+		List<Recipe> recipelist = recipecreater.getrecipebycooktime(cooktime);
+		Map<String, Object> myModel = new HashMap<String, Object>();
+		myModel.put("recipes", recipelist);
+		myModel.put("cooktime", cooktime);
+		myModel.put("categoryid", 0);
+		return new ModelAndView("showrecipes","model",myModel);
+	}
+	//按时间类别查询
+	@RequestMapping(value="/cooktimerecipe/{cookTime}/{categoryID}", method=RequestMethod.GET)
+	public ModelAndView getrecipebytimeandrecipe(@PathVariable("cookTime") int cookTime,@PathVariable("categoryID") int categoryID) {
+		List<Recipe> recipelist = recipecreater.getrecipebytimeandtype(categoryID, cookTime);
+		Map<String, Object> myModel = new HashMap<String, Object>();
+		myModel.put("recipes", recipelist);
+		myModel.put("categoryid", categoryID);
+		myModel.put("cooktime", cookTime);
+		return new ModelAndView("showrecipes","model",myModel);
 	}
 
 }

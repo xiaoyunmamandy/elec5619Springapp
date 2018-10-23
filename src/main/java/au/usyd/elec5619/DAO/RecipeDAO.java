@@ -73,5 +73,13 @@ public class RecipeDAO {
 	public List<Recipe> getrecipebyuser(int userID){
 		return this.getSession().createQuery("from Recipe where userID=?").setInteger(0, userID).list();
 	}
+	//按时间获取
+	public List<Recipe> getrecipebycooktime(int cooktime){
+		return this.getSession().createQuery("from Recipe where cookTime<=?").setInteger(0, cooktime).list();
+	}
+	//按时间和类别获取
+	public List<Recipe> getrecipebytimeandtype(int categoryID, int cookTime){
+		return this.getSession().createQuery("from Recipe where (categoryID=? and cookTime<=?)").setInteger(0, categoryID).setInteger(1, cookTime).list();
+	}
 
 }

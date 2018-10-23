@@ -127,4 +127,32 @@ public class SimpleRecipecreater implements Recipecreater{
 		List<Recipe> recipelist = recipeDAO.getrecipebyuser(userID);
 		return recipelist;
 	}
+	//按时间查菜谱
+	public List<Recipe> getrecipebycooktime(int cooktime){
+		List<Recipe> recipelist = null;
+		if(cooktime==1) {
+			recipelist= recipeDAO.getrecipebycooktime(20);
+		}
+		else if(cooktime==2) {
+			recipelist = recipeDAO.getrecipebycooktime(40);
+		}
+		else if(cooktime==3) {
+			recipelist = recipeDAO.getrecipebycooktime(60);
+		}
+		return recipelist;
+	}
+	//按时间类别查询
+	public List<Recipe> getrecipebytimeandtype(int categoryID, int cookTime){
+		List<Recipe> recipelist = null;
+		if(cookTime==1) {
+			recipelist= recipeDAO.getrecipebytimeandtype(categoryID, 20);
+		}
+		else if(cookTime==2) {
+			recipelist= recipeDAO.getrecipebytimeandtype(categoryID, 40);
+		}
+		else if(cookTime==3) {
+			recipelist= recipeDAO.getrecipebytimeandtype(categoryID, 60);
+		}
+		return recipelist;
+	}
 }

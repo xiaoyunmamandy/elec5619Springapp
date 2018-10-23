@@ -14,7 +14,7 @@ function deletecheck(){
 </head>
 <body>
 	
-	<table>
+	<table class="table table-striped">
 		<tr>
 			<td>Recipe name</td>
 			<td>Cook Time needed</td>

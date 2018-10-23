@@ -2,15 +2,18 @@
 height:70px;
 background-color:#5553E4;
 margin-bottom:10px;
+color:white;
+font-weight:bold;
+padding-top:20px;
 }
 
 body {
-	margin-left:20px;
-	margin-right:20px;
+	margin-left:5%;
+	margin-right:5%;
 	font-size:15px;
 }
 
-#ingredientsdiv,#stepdiv{
+#ingredientsdiv,#stepdiv,#recipesdiv{
 	text-align:center;
 }
 
@@ -20,4 +23,22 @@ body {
 
 #ingredientsbox,#stepbox{
 	margin:auto;
+}
+#recipeslistbox{
+	text-align:center;
+	margin:auto;
+}
+#basicinfotable{
+	width:600px;
+}
+.bodydiv{
+	margin-left:5%;
+	margin-right:5%;
+}
+#ingredientlistbox{
+	width:400px;
+	margin:auto;
+}
+#ingredientlistdiv{
+	text-align:center;
 }

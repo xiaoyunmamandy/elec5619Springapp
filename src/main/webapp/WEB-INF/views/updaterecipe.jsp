@@ -25,11 +25,39 @@ function addsteps(){
 	$(newrow).appendTo($('#stepbox'))
 	alert(rowcount)
 }
+function datavalid(){
+	var recipename = $('#recipename').val();
+	var cooktime = $('#cooktime').val();
+	var servepeoplenumber = $('#servepeopleno').val();
+	if(recipename==""){
+		alert("please input the name of recipe!")
+		return false;
+	}
+	else if(servepeoplenumber==""){
+		alert("please enter the serve people number!")
+		return false
+	}
+	else if(cooktime==""){
+		alert("please enter the cook time!")
+		return false
+	}
+	else if(isNaN(servepeoplenumber)){
+		alert("serve people should be a number!")
+		return false
+	}
+	else if(isNaN(cooktime)){
+		alert("cook time should be a number!")
+		return false
+	}
+	else{
+		return true;
+	}
+}
 </script>
 </head>
 <body>
 <div class="topbar">111</div>
-<form action="/elec5619Springapp/recipe/updaterecipe" method="post" enctype="multipart/form-data">
+<form action="/elec5619Springapp/recipe/updaterecipe" method="post" enctype="multipart/form-data" onsubmit="return datavalid();">
 	<div class="row">
 		<div class="col-xs-5">
 			<div id="dishimgbox">
@@ -41,11 +69,11 @@ function addsteps(){
 		<div class="col-xs-7">
 			<table>
 				<tr>
-					<td colspan="2">Recipe Name: <input type="text" name="recipeName" value="${model.recipes.recipeName}"/></td>
+					<td colspan="2">Recipe Name: <input type="text" name="recipeName" value="${model.recipes.recipeName}" id="recipename"/></td>
 				</tr>
 				<tr>
-					<td>Cook time: <input type="text" name="cookTime" value="${model.recipes.cookTime}"/> mins</td>
-					<td>Serve people number: <input type="text" name="servepeopleno" value="${model.recipes.servepeopleno}"/></td>
+					<td>Cook time: <input type="text" name="cookTime" value="${model.recipes.cookTime}" id="cooktime"/> mins</td>
+					<td>Serve people number: <input type="text" name="servepeopleno" value="${model.recipes.servepeopleno}" id="servepeopleno"/></td>
 				</tr>
 				<tr>
 					<td>category: <form:select path="category" name="categoryID" id="categorieslist">

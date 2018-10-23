@@ -1,49 +1,73 @@
-<%@ include file="/WEB-INF/views/include.jsp" %>
+<%@ include file="/WEB-INF/views/include.jsp"%>
 <html>
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<style type="text/css">
+@import url("<c:url value='/resources/css/recipepage.css'/>");
+</style>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 </head>
 <body>
-<input type="hidden" name="recipeID" value="${model.recipes.recipeID }" id="recipeid"/>
-<table>
-	<tr>
-		<td>recipeName:</td>
-		<td>${model.recipes.recipeName}</td>
-		
-	</tr>
-	<tr>
-		<td>cookTime:</td>
-		<td>${model.recipes.cookTime} mins</td>
-		
-	</tr>
-	<tr>
-		<td>servepeopleno:</td>
-		<td>
-		${model.recipes.servepeopleno}</td>		
-	</tr>
-	<tr>
-		<td>tips:</td>
-		<td>${model.recipes.tips}</td>
-	</tr>
-	<tr>
-		<td>category:</td>
-		<td>${model.categoryName}</td>
-	</tr>	
-	<tr>
-		<td>dish picture:</td>
-		<td><img src="/imgUrl/${model.recipes.dishImg }" height="150px" width="200px"/></td>
-	</tr>
-</table>
-<c:forEach items="${model.ingredients }" var="ingredient">
-	${ingredient.ingredientName }
-	${ingredient.ingredientAmount }</br>
-</c:forEach>
-<c:forEach items="${model.steps }" var="step">
-	${step.stepsno }
-	${step.description }
-	<img src="/imgUrl/${step.stepImg }" height="150px" width="200px"/></br>
-</c:forEach>
+	<div class="topbar">
+		<div class="row" id="titlediv">
+			<div class="col-xs-2"></div>
+			<div class="col-xs-5">Recipe details</div>
+			<div class="col-xs-2">Back to homepage</div>
+			<div class="col-xs-3">Welcome: ${model.username}</div>
+		</div>
+	</div>
+	<input type="hidden" name="recipeID" value="${model.recipes.recipeID }"
+		id="recipeid" />
+	<div class="bodydiv">
+		<div class="row">
+			<div class="col-xs-8">
+				<table id="basicinfotable">
+					<tr>
+						<td colspan="2"><h3>${model.recipes.recipeName}</h3></td>
+					</tr>
+					<tr>
+						<td rowspan="4"><img src="/imgUrl/${model.recipes.dishImg }"
+							height="200px" width="300px" /></td>
+						<td><img src="<c:url value="/resources/decimg/head.png" />" height="20px" width="20px"/>&nbspChef:&nbspMary</td>
+					</tr>
+					<tr>
+						<td><img src="<c:url value="/resources/decimg/time_icon.png" />" height="20px" width="20px"/>&nbspTime needed: ${model.recipes.cookTime} mins</td>
+					</tr>
+					<tr>
+						<td><img src="<c:url value="/resources/decimg/servepeople.png" />" height="20px" width="20px"/>&nbspserve people: ${model.recipes.servepeopleno}</td>
+					</tr>
+					<tr>
+						<td><img src="<c:url value="/resources/decimg/tag.png" />" height="20px" width="20px"/>&nbspcategory: ${model.categoryName}</td>
+					</tr>
+				</table>
+				<div class="listdiv">
+					<h3>Ingredients</h3>
+					<table id="ingredientlistbox" class="table table-striped">
+						<c:forEach items="${model.ingredients }" var="ingredient">
+						<tr>
+							<td>${ingredient.ingredientName }</td>
+							<td>${ingredient.ingredientAmount }</td>
+						</tr>
+						</c:forEach>
 
+					</table>
+				</div>
+				<div class="listdiv">
+					<h3>Steps</h3>
+					<table id="steplistbox">
+						<c:forEach items="${model.steps }" var="step">
+							<tr>
+								<td>${step.stepsno }</td>
+								<td>${step.description }</td>
+								<td><img src="/imgUrl/${step.stepImg }" height="150px" width="200px" /></td>
+							</tr>
+						</c:forEach>
+					</table>
+				</div>
+			</div>
+			<div class="col-xs-3">Tips: ${model.recipes.tips}</div>
+		</div>	
+	</div>
 </body>
 </html>

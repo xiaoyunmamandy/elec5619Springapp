@@ -27,5 +27,6 @@ public interface Recipecreater extends Serializable{
 	public List<Recipe> getrecipebyuser(int userID);
 	public Recipe getrecipebyID(int recipeID);
 	public List<Category> getallcategories();
-	
+	public List<Recipe> getrecipebycooktime(int cooktime);
+	public List<Recipe> getrecipebytimeandtype(int categoryID, int cookTime);
 }
