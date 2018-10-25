@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -56,7 +58,6 @@ public class Recipemanagecontroller {
 	}
 	//添加完整菜谱
 	@RequestMapping(value="/addrecipetotal", method=RequestMethod.POST)
-	@ResponseBody
 	public String addrecipetotal(HttpServletRequest request,HttpServletResponse response, String[] ingredientName, String[] ingredientAmount, String[] description, @RequestParam("dish_img") MultipartFile dishfile,@RequestParam("steppicture") MultipartFile[] file)  throws Exception, IOException {
 			//生成ingredient list
 			List<Ingredient> ingredientlist = new ArrayList<Ingredient>();
@@ -238,5 +239,15 @@ public class Recipemanagecontroller {
 		myModel.put("cooktime", cookTime);
 		return new ModelAndView("showrecipes","model",myModel);
 	}
-
+	//API显示所有类别
+	@RequestMapping(value="/categoriestest", method=RequestMethod.GET)
+	@ResponseBody
+	public List<Category> getallcategoryapitest() {
+		List<Category> categorylist = recipecreater.getallcategories();
+		return categorylist;
+	}
+	@RequestMapping(value="/showcategory", method=RequestMethod.GET)
+	public String showcategory() {
+		return "admincategory";
+	}
 }

@@ -39,9 +39,25 @@
 				+ cooktimeid+"/"+categoryID;
 		}
 	}
+	function test(){
+		var url ="localhost:8080${pageContext.request.contextPath}/recipe/categories/";
+		alert(url);
+		
+		$.get("${pageContext.request.contextPath}/recipe/categoriestest",function(data){
+			
+			
+			window.alert(data[0].categoryName);
+			
+			alert("111");
+		
+		})
+		
+		
+	}
 </script>
 </head>
 <body>
+	<input type="button" value="showcategory" onclick="test();"/>
 	<div class="topbar">
 		<div class="col-xs-2"></div>
 		<div class="col-xs-5">Get your recipes here!</div>
