@@ -107,6 +107,13 @@ public class Usermanagecontroller {
 		myModel.put("user", user);
 		return new ModelAndView("updateselfinfo","model",myModel);
 	}
+	@RequestMapping(value = "/updatepwdpage/{userid}", method = RequestMethod.GET)
+	public ModelAndView pwdupdateform(@PathVariable("userid") int userid,HttpServletRequest request, HttpServletResponse response) {
+		User user = usercreater.getUserById(userid);
+		Map<String, Object> myModel = new HashMap<String, Object>();
+		myModel.put("user", user);
+		return new ModelAndView("updatepwd","model",myModel);
+	}
 	//用户修改个人信息
 	@RequestMapping(value = "/updateinformation", method = RequestMethod.POST)
 	public String updaterecipe(HttpServletRequest request, HttpServletResponse response, @RequestParam("personImg") MultipartFile personImg) throws Exception, IOException {
@@ -120,7 +127,7 @@ public class Usermanagecontroller {
 			personImgpath=originImg;
 		}
 		User user = new User(request.getParameter("userName"), request.getParameter("password"),
-				request.getParameter("email"), 3, personImgpath);
+				request.getParameter("email"), Integer.parseInt(request.getParameter("points")), personImgpath);
 		user.setId(Integer.parseInt(request.getParameter("userid")));
 		usercreater.updateUser(user);
 		int userID=Integer.parseInt(request.getParameter("userid"));
