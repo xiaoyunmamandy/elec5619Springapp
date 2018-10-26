@@ -7,13 +7,7 @@
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript">
-	function deletecheck() {
-		var message = "Are you sure you want to delete it?";
-		if (confirm(message) == true) {
-			return true;
-		} else
-			return false;
-	}
+
 </script>
 </head>
 <body>
@@ -21,7 +15,7 @@
 		<div class="col-xs-3" id="navigationbar"><jsp:include
 				page="selfcentermaster.jsp"></jsp:include></div>
 		<div class="col-xs-9" id="contentdiv">
-			<div class="topbar">My recipes</div>
+			<div class="topbar">My collections</div>
 			<div>
 				<table class="table table-striped">
 					<tr>
@@ -32,11 +26,13 @@
 							<tr>
 								<td>${recipe.recipeName }</td>
 								<td>${recipe.cookTime} mins</td>
-								<td><a
-									href="${pageContext.request.contextPath}/recipe/updatepage/${recipe.recipeID }/${model.user.id}">
-										update</a> <a
-									href="${pageContext.request.contextPath}/recipe/deleterecipe/${recipe.recipeID }"
-									onclick="return deletecheck();">delete</a></td>
+								<td> 
+								<a
+									href="${pageContext.request.contextPath}/recipe/recipedetails/${recipe.recipeID}"
+									onclick="return deletecheck();">see detail</a>
+								<a
+									href="${pageContext.request.contextPath}/recipe/deletecollect/${model.user.id}/${recipe.recipeID}"
+									onclick="return deletecheck();">cancel collection</a></td>
 							</tr>
 						</c:forEach>
 				</table>

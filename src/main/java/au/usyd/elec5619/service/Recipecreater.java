@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import au.usyd.elec5619.domain.Category;
+import au.usyd.elec5619.domain.Collection;
 import au.usyd.elec5619.domain.Recipe;
 
 
@@ -29,4 +30,8 @@ public interface Recipecreater extends Serializable{
 	public List<Category> getallcategories();
 	public List<Recipe> getrecipebycooktime(int cooktime);
 	public List<Recipe> getrecipebytimeandtype(int categoryID, int cookTime);
+	public void addcollection(Collection collection);
+	public List<Recipe> getrecipecollectbyuser(int userID);
+	public void deletecollection(int userID,int recipeID);
+	public boolean checkcollection(int userID, int recipeID); 
 }

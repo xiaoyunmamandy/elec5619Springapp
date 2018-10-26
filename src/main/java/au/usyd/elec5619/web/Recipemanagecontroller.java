@@ -32,10 +32,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import au.usyd.elec5619.domain.Category;
+import au.usyd.elec5619.domain.Collection;
 import au.usyd.elec5619.domain.Ingredient;
 import au.usyd.elec5619.domain.Recipe;
 import au.usyd.elec5619.domain.Step;
+import au.usyd.elec5619.domain.User;
 import au.usyd.elec5619.service.Recipecreater;
+import au.usyd.elec5619.service.Usercreater;
 
 
 @Controller
@@ -44,6 +47,8 @@ public class Recipemanagecontroller {
 	
 	@Autowired
 	private Recipecreater recipecreater;
+	@Autowired
+	private Usercreater usercreater;
 	//把category调出来 放下拉刘表
 	@ModelAttribute("category")
 	public List<Category> getallcategory(){
@@ -96,16 +101,18 @@ public class Recipemanagecontroller {
 	}
 	
 	//加载更新页面 需要recipeid
-	@RequestMapping(value="/updatepage/{recipeID}", method=RequestMethod.GET)
-	public ModelAndView updatepage(@PathVariable("recipeID") int recipeID, HttpServletRequest request,HttpServletResponse response) {
+	@RequestMapping(value="/updatepage/{recipeID}/{userid}", method=RequestMethod.GET)
+	public ModelAndView updatepage(@PathVariable("recipeID") int recipeID,@PathVariable("userid") int userid, HttpServletRequest request,HttpServletResponse response) {
 		Recipe recipe = recipecreater.getrecipebyID(recipeID);
 		List<Ingredient> ingredientlist = recipe.getIngredientlist();
 		List<Step> steplist = recipe.getSteplist();
+		User user = usercreater.getUserById(userid);
 		Map<String, Object> myModel = new HashMap<String, Object>();
 		myModel.put("recipes", recipe);
 		myModel.put("ingredients", ingredientlist);
 		myModel.put("steps", steplist);
 		myModel.put("categoryID", recipe.getcategoryID());
+		myModel.put("user", user);
 		return new ModelAndView("updaterecipe","model",myModel);
 	}
 	//更新菜谱
@@ -150,11 +157,11 @@ public class Recipemanagecontroller {
             }
             steplist.add(step);
         }
-		int userID = 1;
+		int userID = Integer.parseInt(request.getParameter("userid"));
 		Recipe recipe = new Recipe(request.getParameter("recipeName"),Integer.parseInt(request.getParameter("cookTime")),Integer.parseInt(request.getParameter("servepeopleno")),dishpath ,request.getParameter("tips"),Integer.parseInt(request.getParameter("categoryID")), userID ,ingredientlist,steplist);
 		recipe.setrecipeID(Integer.parseInt(request.getParameter("recipeID")));
 		recipecreater.updaterecipe(recipe);
-		return "redirect:/recipe/userrecipe/1";
+		return "redirect:/recipe/userrecipe/"+userID;
 	}
 	
 	//删除菜谱
@@ -174,7 +181,6 @@ public class Recipemanagecontroller {
 		myModel.put("recipes", recipelist);
 		myModel.put("categoryid", 0);
 		myModel.put("cooktime", 0);
-		request.getSession().setAttribute("username", "xiaoyunma");
 		return new ModelAndView("showrecipes","model",myModel);
 		
 	}
@@ -192,9 +198,17 @@ public class Recipemanagecontroller {
 		myModel.put("steps", steplist);
 		myModel.put("categoryName", categoryName);
 		HttpSession session = request.getSession(true);
-		String username = (String)session.getAttribute("username");
-		System.out.println(username);
-		myModel.put("username", username);
+		if(session.getAttribute("username")!="") {
+			String username = (String)session.getAttribute("username");
+			int userid = (Integer) session.getAttribute("userid");
+			System.out.println(username);
+			myModel.put("username", username);
+			myModel.put("userid", userid);
+			boolean ifcollected = recipecreater.checkcollection(userid, id);
+			if(ifcollected) {
+				myModel.put("collect", 1);
+			}
+		}	
 		return new ModelAndView("recipedetail","model",myModel);
 	}
 	
@@ -212,10 +226,12 @@ public class Recipemanagecontroller {
 		return new ModelAndView("showrecipes","model",myModel);
 	}
 	//查询用户发布信息
-	@RequestMapping(value="/userrecipe/{userID}", method=RequestMethod.GET)
-	public ModelAndView getrecipebyuser(@PathVariable("userID") int userID) {
-		List<Recipe> recipelist = recipecreater.getrecipebyuser(userID);
+	@RequestMapping(value="/userrecipe/{userid}", method=RequestMethod.GET)
+	public ModelAndView getrecipebyuser(@PathVariable("userid") int userid,HttpServletRequest request,HttpServletResponse response) {
+		User user = usercreater.getUserById(userid);
 		Map<String, Object> myModel = new HashMap<String, Object>();
+		myModel.put("user", user);
+		List<Recipe> recipelist = recipecreater.getrecipebyuser(userid);
 		myModel.put("recipes", recipelist);
 		return new ModelAndView("showrecipesbyuser","model",myModel);
 	}
@@ -249,5 +265,31 @@ public class Recipemanagecontroller {
 	@RequestMapping(value="/showcategory", method=RequestMethod.GET)
 	public String showcategory() {
 		return "admincategory";
+	}
+	//收藏菜谱
+	@RequestMapping(value="/collectrecipe", method=RequestMethod.POST)
+	@ResponseBody
+	public String collectrecipe(HttpServletRequest request,HttpServletResponse response) {
+		int recipeID = Integer.parseInt(request.getParameter("recipeID"));
+		int userid = Integer.parseInt(request.getParameter("userid"));
+		Collection collection = new Collection(recipeID,userid);
+		recipecreater.addcollection(collection);
+		return "home";
+	}
+	//显示收藏菜谱
+	@RequestMapping(value="/mycollection/{userid}", method=RequestMethod.GET)
+	public ModelAndView getrecipebycollection(@PathVariable("userid") int userid) {
+		List<Recipe> recipelist = recipecreater.getrecipecollectbyuser(userid);
+		User user = usercreater.getUserById(userid);
+		Map<String, Object> myModel = new HashMap<String, Object>();
+		myModel.put("recipes", recipelist);
+		myModel.put("user", user);
+		return new ModelAndView("usercollection","model",myModel);
+	}
+	//取消收藏
+	@RequestMapping(value="/deletecollect/{userid}/{recipeID}", method=RequestMethod.GET)
+	public String deletecollection(@PathVariable("userid") int userid,@PathVariable("recipeID") int recipeID) {
+		recipecreater.deletecollection(userid, recipeID);
+		return "redirect:/recipe/mycollection/"+userid;
 	}
 }

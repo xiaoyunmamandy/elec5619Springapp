@@ -6,7 +6,29 @@
 </style>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-
+<script type="text/javascript">
+window.onload=function(){
+	var ifcollected = ${model.collect}
+	if(ifcollected==1){
+		alert("111")
+		$("#collectbtn").hide();
+	}
+}
+function collectrecipe(){
+	var recipeID = $("#recipeid").val();
+	var userid = $("#userid").val();
+	alert(userid)
+	if(userid==""){
+		alert("please login first!")
+	}
+	else{
+		$.post("${pageContext.request.contextPath}/recipe/collectrecipe",{recipeID:recipeID,userid:userid},function(){
+			alert("you have collect the recipe!")
+		})
+	}
+	
+}
+</script>
 </head>
 <body>
 	<div class="topbar">
@@ -19,6 +41,8 @@
 	</div>
 	<input type="hidden" name="recipeID" value="${model.recipes.recipeID }"
 		id="recipeid" />
+	<input type="hidden" name="userID" value="${model.userid }"
+		id="userid" />
 	<div class="bodydiv">
 		<div class="row">
 			<div class="col-xs-8">
@@ -41,6 +65,7 @@
 						<td><img src="<c:url value="/resources/decimg/tag.png" />" height="20px" width="20px"/>&nbspcategory: ${model.categoryName}</td>
 					</tr>
 				</table>
+				<input type="button" value="add to collection" id="collectbtn" class="btn btn-primary" onclick="collectrecipe();"/>
 				<div class="listdiv">
 					<h3>Ingredients</h3>
 					<table id="ingredientlistbox" class="table table-striped">

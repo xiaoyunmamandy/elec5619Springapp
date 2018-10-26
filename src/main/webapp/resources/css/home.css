@@ -1,0 +1,23 @@
+.topbar{
+	height:70px;
+	background-color:#3E4454;
+	margin-bottom:10px;
+	color:white;
+	font-weight:bold;
+	padding-top:20px;
+}
+a{
+	color:white;
+}
+#recipepart{
+	background-color:#F0F8ED;
+	height:800px;
+}
+#awardpart{
+	background-color:#EAEDF6;
+	height:800px;
+}
+#mallpart{
+	background-color:#EBE2DD;
+	height:800px;
+}

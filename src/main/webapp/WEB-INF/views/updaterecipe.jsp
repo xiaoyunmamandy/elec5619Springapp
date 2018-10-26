@@ -70,6 +70,7 @@ function datavalid(){
 			<div>
 				<form action="/elec5619Springapp/recipe/updaterecipe" method="post"
 					enctype="multipart/form-data" onsubmit="return datavalid();">
+					<input type="hidden" value="${model.user.id }" name="userid"/>
 					<div class="row">
 						<div class="col-xs-5">
 							<div id="dishimgbox">

@@ -12,8 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import au.usyd.elec5619.DAO.CategoryDAO;
+import au.usyd.elec5619.DAO.CollectionDAO;
 import au.usyd.elec5619.DAO.RecipeDAO;
 import au.usyd.elec5619.domain.Category;
+import au.usyd.elec5619.domain.Collection;
 import au.usyd.elec5619.domain.Recipe;
 import au.usyd.elec5619.domain.Step;
 
@@ -27,6 +29,9 @@ public class SimpleRecipecreater implements Recipecreater{
 	
 	@Autowired
 	public CategoryDAO categoryDAO;
+	
+	@Autowired
+	public CollectionDAO collectionDAO;
 	
 	public void setRecipeDAO(RecipeDAO recipeDAO) {
 		this.recipeDAO = recipeDAO;
@@ -154,5 +159,35 @@ public class SimpleRecipecreater implements Recipecreater{
 			recipelist= recipeDAO.getrecipebytimeandtype(categoryID, 60);
 		}
 		return recipelist;
+	}
+	//收藏菜谱
+	public void addcollection(Collection collection) {
+		collectionDAO.addcollection(collection);
+	}
+	//查找user收藏菜谱
+	public List<Recipe> getrecipecollectbyuser(int userID){
+		List<Collection> collectlist = collectionDAO.getcollectionbyuser(userID);
+		List<Recipe> recipelist = new ArrayList<Recipe>();
+		for(Collection collect:collectlist) {
+			Recipe recipe = new Recipe();
+			recipe = recipeDAO.getrecipebyID(collect.getRecipeID());
+			recipelist.add(recipe);	
+		}
+		return recipelist;
+	}
+	//取消收藏
+	public void deletecollection(int userID,int recipeID){
+		Collection collection = collectionDAO.getcollection(userID, recipeID);
+		collectionDAO.deletecollection(collection.getCollectionID());
+	}
+	//获得这个用户对某菜谱的收藏
+	public boolean checkcollection(int userID, int recipeID) {
+		Collection collection = collectionDAO.getcollection(userID, recipeID);
+		if(collection==null) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 }

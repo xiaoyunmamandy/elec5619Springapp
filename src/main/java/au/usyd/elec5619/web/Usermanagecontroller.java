@@ -84,7 +84,9 @@ public class Usermanagecontroller {
 		else {
 			User user = usercreater.getuserbyemail(email);
 			String username = user.getUserName();
+			int userid = user.getId();
 			request.getSession().setAttribute("username", username);
+			request.getSession().setAttribute("userid", userid);
 			Map<String, Object> myModel = new HashMap<String, Object>();
 			myModel.put("username", username);
 			return new ModelAndView("home", "model", myModel);
@@ -92,9 +94,12 @@ public class Usermanagecontroller {
 	}
 	//进入个人中心 个人信息详情
 	@RequestMapping(value = "/selfinfo", method = RequestMethod.GET)
-	public ModelAndView showselfcenter() {
-		int userID=1;
-		User user = usercreater.getUserById(userID);
+	public ModelAndView showselfcenter(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession(true);
+		int userid = (Integer) session.getAttribute("userid");
+		//String username = (String)session.getAttribute("username");
+		//int userID=1;
+		User user = usercreater.getUserById(userid);
 		Map<String, Object> myModel = new HashMap<String, Object>();
 		myModel.put("user", user);
 		return new ModelAndView("selfinformation","model",myModel);
@@ -131,6 +136,8 @@ public class Usermanagecontroller {
 		user.setId(Integer.parseInt(request.getParameter("userid")));
 		usercreater.updateUser(user);
 		int userID=Integer.parseInt(request.getParameter("userid"));
+		request.getSession().setAttribute("userid", userID);
+		
 		return "redirect:/user/selfinfo";
     }
 
