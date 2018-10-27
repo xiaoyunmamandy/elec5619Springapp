@@ -299,4 +299,19 @@ public class Recipemanagecontroller {
 		recipecreater.deletecollection(userid, recipeID);
 		return "redirect:/recipe/mycollection/"+userid;
 	}
+	//取消类别
+	@RequestMapping(value="/categorydelete/{categoryID}", method=RequestMethod.GET)
+	public String deletecategory(@PathVariable("categoryID") int categoryID, HttpServletRequest request,HttpServletResponse response) {
+		recipecreater.deletecategory(categoryID);
+		return "redirect:/recipe/showcategory";
+	}
+	//添加类别
+	@RequestMapping(value="/addcategory", method=RequestMethod.POST)
+	public String deletecategory(HttpServletRequest request,HttpServletResponse response) {
+		String categoryname = request.getParameter("categoryname");
+		Category category = new Category();
+		category.setcategoryName(categoryname);
+		recipecreater.addcategory(category);
+		return "redirect:/recipe/showcategory";
+	}
 }

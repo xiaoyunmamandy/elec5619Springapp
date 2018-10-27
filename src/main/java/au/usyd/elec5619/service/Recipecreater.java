@@ -33,5 +33,7 @@ public interface Recipecreater extends Serializable{
 	public void addcollection(Collection collection);
 	public List<Recipe> getrecipecollectbyuser(int userID);
 	public void deletecollection(int userID,int recipeID);
-	public boolean checkcollection(int userID, int recipeID); 
+	public boolean checkcollection(int userID, int recipeID);
+	public void addcategory(Category category);
+	public void deletecategory(int categoryID);
 }

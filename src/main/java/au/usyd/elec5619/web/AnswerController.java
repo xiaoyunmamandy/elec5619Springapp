@@ -28,8 +28,10 @@ import org.springframework.web.servlet.ModelAndView;
 import au.usyd.elec5619.domain.Answers;
 import au.usyd.elec5619.domain.Questions;
 import au.usyd.elec5619.domain.SubQA;
+import au.usyd.elec5619.domain.User;
 import au.usyd.elec5619.service.AnswerManager;
 import au.usyd.elec5619.service.QuestionManager;
+import au.usyd.elec5619.service.Usercreater;
 
 
 @Controller
@@ -40,7 +42,8 @@ public class AnswerController {
 	private  AnswerManager answerManager;
 	@Autowired
 	private QuestionManager questionManager;
-	
+	@Autowired
+	private Usercreater usercreater;
 	@RequestMapping(value="/addanswers", method=RequestMethod.POST)
 	public String addanswers(HttpServletRequest request,HttpServletResponse response)  throws Exception, IOException {
 		ArrayList<SubQA> sub = new ArrayList<SubQA>();
@@ -56,18 +59,19 @@ public class AnswerController {
 		myModel.put("question", question);
 		List<Answers> answerslist = answerManager.getanswersbyID(id);
 		myModel.put("answers", answerslist);
-		request.getSession().setAttribute("username", "xxx");
 		HttpSession session = request.getSession(true);
-		String username = (String)session.getAttribute("username");
+		int userid = (Integer)session.getAttribute("userid");
+		User user = usercreater.getUserById(userid);
+		myModel.put("user", user);
 		return new ModelAndView("UserQuestion","model",myModel);
 	}
 	
 	@RequestMapping(value="/addsub/{id}", method=RequestMethod.POST)
 	public String addsub(@PathVariable("id") int id,HttpServletRequest request,HttpServletResponse response)  throws Exception, IOException {
-		SubQA sub = new SubQA(request.getParameter("Sub"),1);
+		SubQA sub = new SubQA(request.getParameter("Sub"),Integer.parseInt(request.getParameter("userid")));
 		System.out.println(id);
-		
+		int questionID = Integer.parseInt(request.getParameter("questionID"));
 		answerManager.addsub(id,sub);
-		return "home";
+		return "redirect:/UserQuestion/"+questionID;
 	}
 }

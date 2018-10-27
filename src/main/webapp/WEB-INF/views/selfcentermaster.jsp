@@ -17,9 +17,7 @@
 	<a href="${pageContext.request.contextPath}/user/selfinfo"/>Profile</a></br>
 	<a href="${pageContext.request.contextPath}/recipe/userrecipe/${model.user.id }"/>My recipes</a></br>
 	<a href="${pageContext.request.contextPath}/recipe/mycollection/${model.user.id }"/>My collections</a></br>
-	<input type="button" value="My collections"/></br>
-	<input type="button" value="My comments"/></br>
-	<input type="button" value="My questions"/></br>
+	<a href="${pageContext.request.contextPath}/userquestions/${model.user.id }"/>My questions</a></br>
 	
 	</div>
 

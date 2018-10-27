@@ -37,7 +37,8 @@ window.onload=function(){
 		<div class="col-xs-1" id="registerpart">
 		<a href="${pageContext.request.contextPath}/user/showcreateuserform">register</a>
 		</div>
-		<div class="col-xs-2" id="adminpart">Admin login</div>
+		<div class="col-xs-2" id="adminpart">
+		<a href="${pageContext.request.contextPath}/admincenter">Admin login</a></div>
 </div>
 <div id="myCarousel" class="carousel">
     <ol class="carousel-indicators">

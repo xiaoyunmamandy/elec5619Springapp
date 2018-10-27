@@ -28,8 +28,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import au.usyd.elec5619.domain.Answers;
 import au.usyd.elec5619.domain.Questions;
+import au.usyd.elec5619.domain.User;
 import au.usyd.elec5619.service.AnswerManager;
 import au.usyd.elec5619.service.QuestionManager;
+import au.usyd.elec5619.service.Usercreater;
 
 
 @Controller
@@ -40,7 +42,8 @@ public class QuestionController {
 	private  QuestionManager questionManager;
 	@Autowired
 	private  AnswerManager answerManager;
-	
+	@Autowired
+	private Usercreater usercreater;
 	@RequestMapping(value="/CreateQuestion/{userid}", method=RequestMethod.GET)
 	public String CreateQuestion(@PathVariable("userid") int userid,Model model) {
 		model.addAttribute("userid", userid);
@@ -51,7 +54,7 @@ public class QuestionController {
 	public String addquestions(HttpServletRequest request,HttpServletResponse response){
 		Questions question = new Questions(request.getParameter("title"),request.getParameter("description"),true,Integer.parseInt(request.getParameter("userid")),Integer.parseInt(request.getParameter("Worth")));
 		questionManager.addquestion(question);
-		return "home";
+		return "redirect:/allquestions";
 	}
 	
 	@RequestMapping(value="/allquestions", method=RequestMethod.GET)
@@ -71,13 +74,14 @@ public class QuestionController {
 		return new ModelAndView("ShowQuestions","model",myModel);
 	}
 	
-	@RequestMapping(value="/userquestions", method=RequestMethod.GET)
-	public ModelAndView getquestionsbyuser(HttpServletRequest request,HttpServletResponse response) {
-		List<Questions> questionslist = questionManager.getquestionsbyuser(1);
+	@RequestMapping(value="/userquestions/{userid}", method=RequestMethod.GET)
+	public ModelAndView getquestionsbyuser(HttpServletRequest request,HttpServletResponse response,@PathVariable("userid") int userid) {
+		List<Questions> questionslist = questionManager.getquestionsbyuser(userid);
+		User user = usercreater.getUserById(userid);
 		Map<String, Object> myModel = new HashMap<String, Object>();
 		System.out.println(questionslist.get(0).getTitle());
 		myModel.put("questions", questionslist);
-		request.getSession().setAttribute("username", "xxx");
+		myModel.put("user", user);
 		return new ModelAndView("userquestions","model",myModel);
 	}
 	
@@ -88,15 +92,10 @@ public class QuestionController {
 		myModel.put("question", question);
 		List<Answers> answerslist = answerManager.getanswersbyID(id);
 		myModel.put("answers", answerslist);
-		request.getSession().setAttribute("username", "xxx");
 		HttpSession session = request.getSession(true);
-		if(session.getAttribute("username")!="") {
-			String username = (String)session.getAttribute("username");
-			int userid = (Integer) session.getAttribute("userid");
-			System.out.println(username);
-			myModel.put("username", username);
-			myModel.put("userid", userid);
-		}
+		int userid = (Integer)session.getAttribute("userid");
+		User user = usercreater.getUserById(userid);
+		myModel.put("user", user);
 		return new ModelAndView("QuestionDetails","model",myModel);
 	}
 }

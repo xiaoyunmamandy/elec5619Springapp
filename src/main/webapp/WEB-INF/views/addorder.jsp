@@ -5,11 +5,27 @@
 <head>
 <title>Add Product Form</title>
 <style type="text/css">@import url("<c:url value="/resources/css/main.css"/>");</style>
+<script type="text/javascript">
+function amountcheck(){
+	var currentamount = ${product.amount};
+	var inputamount = $("#amount").val();
+	alert(inputamount);
+	if(currentamount>inputamount){
+		return true;
+	}
+	else{
+		alert("Sorry we do have enough storage!");
+		return false;
+	}
+}
+
+
+</script>
 </head>
 <body>
 
 <div id="global">
-<form:form commandName="order" action="addorder" method="post"><!-- commandName means the name of the attribute of the model from Controller -->
+<form:form commandName="order" action="addorder" method="post" onsubmit="return amountcheck()"><!-- commandName means the name of the attribute of the model from Controller -->
     <fieldset>
         <legend>Make a Order</legend>
         <p>

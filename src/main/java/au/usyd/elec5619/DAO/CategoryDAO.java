@@ -37,5 +37,11 @@ public class CategoryDAO {
 		//this.getSession().createQuery("select categoryName from Category where categoryID=?").setInteger(0, id).toString();
 		return categoryName;
 	}
+	public void deletecategory(int categoryID) {
+		this.getSession().createQuery("delete Category where id=?").setParameter(0, categoryID).executeUpdate();
+	}
+	public void addcategory(Category category) {
+		this.getSession().save(category);
+	}
 
 }

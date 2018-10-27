@@ -56,6 +56,11 @@ public class HomeController {
 		return "home";
 	}
 	
+	@RequestMapping(value = "/admincenter", method = RequestMethod.GET)
+	public String admincenter(Model model) {
+		return "admincenter";
+	}
+	
 	@RequestMapping(value="/addpictureform", method=RequestMethod.GET)
 	public String showcreaterecipepic() {
 		return "addpicture";

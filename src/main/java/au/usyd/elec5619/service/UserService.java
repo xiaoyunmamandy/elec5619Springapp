@@ -68,24 +68,17 @@ public class UserService implements Usercreater {
 		System.out.println("1111");
 		return userlist;
 	}
-
-
-	@Override
-	public String test() {
-		// TODO Auto-generated method stub
-		return null;
+	public void addpoint(int addpoint,int userid) {
+		User user = userDAO.getUserById(userid);
+		int newpoint = user.getPoints()+addpoint;
+		user.setPoints(newpoint);
+		userDAO.updateUser(user);
 	}
-
-	@Override
-	public List<User> getUser() {
-		// TODO Auto-generated method stub
-		return null;
+	public void minpoint(int minpoint,int userid) {
+		User user = userDAO.getUserById(userid);
+		int newpoint = user.getPoints()-minpoint;
+		user.setPoints(newpoint);
+		userDAO.updateUser(user);
 	}
-
-	@Override
-	public void deleteUser(int id) {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 }

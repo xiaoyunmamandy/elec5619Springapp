@@ -25,7 +25,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import au.usyd.elec5619.domain.Order;
+import au.usyd.elec5619.domain.Product;
 import au.usyd.elec5619.service.OrderManager;
+import au.usyd.elec5619.service.ProductManager;
 
 @Controller
 @RequestMapping(value="/order/**")//
@@ -34,6 +36,8 @@ public class OrderController {
 	@Autowired
 	//@Qualifier("DatabaseProductManager")
 	private OrderManager orderManager;
+	@Autowired
+	private ProductManager productmanager;
 	
 	@RequestMapping(value="/add/{id}/{userid}")
 	public String addProduct(Model uiModel,@PathVariable("id") Long id,@PathVariable("userid") int userid) {
@@ -41,19 +45,31 @@ public class OrderController {
 		Order order = new Order();
 		order.setProductID(id);
 		order.setUserid(userid);
+		Product product = productmanager.getProductById(id);
+		uiModel.addAttribute("product", product);
 		uiModel.addAttribute("order", order);
 		return "addorder";
 	}
 	
+//	@RequestMapping(value="/addorder", method=RequestMethod.POST)
+//	public String addOrder(@ModelAttribute Order order) {
+//		//要更新数据库(把原来的数据库drop掉)
+//		System.out.println(order.getAddress());
+//		orderManager.addOrder(order);
+//			
+//		return "redirect:/shop";
+//	}
 	@RequestMapping(value="/addorder", method=RequestMethod.POST)
 	public String addOrder(@ModelAttribute Order order) {
 		//要更新数据库(把原来的数据库drop掉)
-		System.out.println(order.getAddress());
+		Product product = productmanager.getProductById(order.getProductID());
+		int currentamount = product.getAmount();
+		int remainamount = currentamount-order.getAmount();
+		product.setAmount(remainamount);
+		productmanager.updateProduct(product);
 		orderManager.addOrder(order);
-			
 		return "redirect:/shop";
 	}
-	
 	@RequestMapping(value = "/list-orders")
     public String listOrders(Model model) {
         List<Order> orders = orderManager.getOrders();

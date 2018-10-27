@@ -32,10 +32,16 @@ public class Order implements Serializable{
 	@Column(name="Country")
 	private String country;
 	@Column(name="Amount")
-	private String amount;
+	private int amount;
 	@Column(name="ProductID")
 	private long productID;
 	
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
 	public long getId() {
 		return id;
 	}
@@ -72,12 +78,7 @@ public class Order implements Serializable{
 	public void setCountry(String country) {
 		this.country = country;
 	}
-	public String getAmount() {
-		return amount;
-	}
-	public void setAmount(String amount) {
-		this.amount = amount;
-	}
+	
 	public long getProductID() {
 		return productID;
 	}

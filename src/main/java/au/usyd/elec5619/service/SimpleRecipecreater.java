@@ -82,6 +82,14 @@ public class SimpleRecipecreater implements Recipecreater{
 		category = categoryDAO.getallcategories();
 		return category;
 	}
+	//添加category
+	public void addcategory(Category category) {
+		categoryDAO.addcategory(category);
+	}
+	//删除菜谱
+	public void deletecategory(int categoryID) {
+		categoryDAO.deletecategory(categoryID);
+	}
 	//将图片文件存到server的制定文件夹中
 	public String uploadpicture(MultipartFile file, String serverpath) throws Exception, IOException{
 		//String localpath = "D:\\apache-tomcat-8.0.53\\webapps\\elec5619Springapp\\img\\";

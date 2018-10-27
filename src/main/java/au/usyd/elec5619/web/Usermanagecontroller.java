@@ -157,12 +157,12 @@ public class Usermanagecontroller {
 	}
 
 	// 5 change the type of userid from int to string
-	@RequestMapping(value = "/deleteuser/{userID}", method = RequestMethod.GET)
-	public String deleterecipe(@PathVariable("userID") int userID, HttpServletRequest request,
-			HttpServletResponse response) {
-		usercreater.deleteUser(userID);
-		return "redirect:/recipe/userrecipe/1";
-	}
+//	@RequestMapping(value = "/deleteuser/{userID}", method = RequestMethod.GET)
+//	public String deleterecipe(@PathVariable("userID") int userID, HttpServletRequest request,
+//			HttpServletResponse response) {
+//		usercreater.deleteUser(userID);
+//		return "redirect:/recipe/userrecipe/1";
+//	}
 
 	// 7 add user
 
@@ -241,20 +241,4 @@ public class Usermanagecontroller {
 		return new ModelAndView("personalinformation", "model", myModel);
 	}
 
-	// personal information
-//	@RequestMapping(value = "/personalinformation", method = RequestMethod.POST)
-//	public String personalinfor(HttpServletRequest request, HttpServletResponse response, int userid, String userName,
-//			String password, String email, @RequestParam("dish_img") MultipartFile dishfile,
-//			@RequestParam("steppicture") MultipartFile[] file) throws Exception, IOException {
-//		
-//
-//		User user = new User();
-//
-//		
-//		String serverpath = request.getSession().getServletContext().getRealPath("img");
-//		String dishpath = usercreater.uploadpicture(dishfile, serverpath);
-//
-//		usercreater.updateUser(user);
-//		return "redirect:/user/updateinformation/" + userid;
-//	}
 }
