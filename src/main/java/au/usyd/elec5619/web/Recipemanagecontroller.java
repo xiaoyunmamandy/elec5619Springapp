@@ -33,10 +33,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import au.usyd.elec5619.domain.Category;
 import au.usyd.elec5619.domain.Collection;
+import au.usyd.elec5619.domain.Comment;
 import au.usyd.elec5619.domain.Ingredient;
 import au.usyd.elec5619.domain.Recipe;
 import au.usyd.elec5619.domain.Step;
 import au.usyd.elec5619.domain.User;
+import au.usyd.elec5619.service.Commentcreater;
 import au.usyd.elec5619.service.Recipecreater;
 import au.usyd.elec5619.service.Usercreater;
 
@@ -49,6 +51,8 @@ public class Recipemanagecontroller {
 	private Recipecreater recipecreater;
 	@Autowired
 	private Usercreater usercreater;
+	@Autowired
+	private Commentcreater commentcreater;
 	//把category调出来 放下拉刘表
 	@ModelAttribute("category")
 	public List<Category> getallcategory(){
@@ -94,8 +98,9 @@ public class Recipemanagecontroller {
 	            stepid++;
 	        }
 			//用session获取用户id
-			int userID = 1;
-			Recipe recipe1 = new Recipe(request.getParameter("recipeName"),Integer.parseInt(request.getParameter("cookTime")),Integer.parseInt(request.getParameter("servepeopleno")),dishpath ,request.getParameter("tips"),Integer.parseInt(request.getParameter("categoryID")), userID ,ingredientlist,steplist);
+			HttpSession session = request.getSession(true);
+			int userid = (Integer) session.getAttribute("userid");
+			Recipe recipe1 = new Recipe(request.getParameter("recipeName"),Integer.parseInt(request.getParameter("cookTime")),Integer.parseInt(request.getParameter("servepeopleno")),dishpath ,request.getParameter("tips"),Integer.parseInt(request.getParameter("categoryID")), userid ,ingredientlist,steplist);
 			recipecreater.addrecipe(recipe1);
 			return "home";	
 	}
@@ -208,7 +213,9 @@ public class Recipemanagecontroller {
 			if(ifcollected) {
 				myModel.put("collect", 1);
 			}
-		}	
+		}
+		List<Comment> commentlist = commentcreater.getcommentbyID(id);
+		myModel.put("comments", commentlist);
 		return new ModelAndView("recipedetail","model",myModel);
 	}
 	

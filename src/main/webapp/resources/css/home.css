@@ -22,10 +22,12 @@ a{
 	height:800px;
 }
 #myCarousel{
-	heigtht:400px;
+	height:400px;
 }
 #navparts{
 	margin-left:20px;
 	margin-right:20px;
 	text-align:center;
+	color:black;
+	margin-top:10px;
 }

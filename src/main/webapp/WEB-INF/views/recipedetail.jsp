@@ -94,5 +94,35 @@ function collectrecipe(){
 			<div class="col-xs-3">Tips: ${model.recipes.tips}</div>
 		</div>	
 	</div>
+	<div>
+	Comments:
+		<c:forEach items="${model.comments }" var="comment">
+		<form action="/elec5619Springapp/comments/addsub/${comment.getCommentID()}" method="post" >
+				<input type="hidden" name="recipeID" value="${model.recipes.recipeID }"
+		id="recipeid" />
+				<div> <tr>
+				      <td> ${comment.getDescription()}</td>
+				      <td> User : ${comment.getUserID() }</td>
+				      <input type="hidden" name="commentID" value="${comment.getCommentID() }" />
+				      <c:forEach items="${comment.getSub() }" var="sub">
+				          <td> ${sub.getDescription()}</td>
+				          <td> User : ${sub.getUserID() }</td>
+				      </c:forEach>
+				    <div>Write your comment here :<input type="text" name="Sub"/></div>
+    	                   <input type="submit" value="submit"/>
+				      </tr>
+			    </div>
+			    <div> </div>
+			    <div> </div>
+         </form>
+		</c:forEach>
+		
+	<form action="/elec5619Springapp/comments/addcomment" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="recipeID" value="${model.recipes.recipeID }"
+		id="recipeid" />
+	<input type="text" name="description"/>
+	<input type="submit" value="submit"/>
+	</form>
+	</div>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <title>Hello :: Spring Application for recipe sharing</title>
 <style type="text/css">
-@import url("<c:url value='/resources/css/recipepage.css'/>");
+@import url("<c:url value='/resources/css/login.css'/>");
 </style>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -22,23 +22,23 @@
 </script>
 </head>
 <body>
-	<div class="topbar">111</div>
-
-	<form action="/elec5619Springapp/user/login" method="post"
+	<div class="topbar">
+	Login in</div>
+	<div class="container">
+	        <div class="card card-container">
+	            <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+	            <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+	            <p id="profile-name" class="profile-name-card"></p>
+	            <form action="/elec5619Springapp/user/login" method="post"
 		enctype="multipart/form-data" onsubmit="return submitvalification()">
-		<div class="row">
-
-			<table id="login">
-				<tr>
-					<td>Email: <input type="text" name="email" id="email"></td>
-				</tr>
-				<tr>
-					<td>password: <input type="text" name="password" id="password"></td>
-				</tr>
-			</table>
-		</div>
-		<input type="submit" value="login" />
-		<p id="errormessage"></p>
-	</form>
+	           
+	                <span id="reauth-email" class="reauth-email"></span>
+	                <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+	                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+	                <p id="errormessage"></p>
+	                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
+	            </form>
+	        </div><!-- /card-container -->
+	  </div><!-- /container -->
 </body>
 </html>

@@ -17,10 +17,12 @@ window.onload=function(){
 		alert("log out success!")
 		$("#loginpart").html("<a href='${pageContext.request.contextPath}/user/loginpage'>Login</a>");
 		$("#registerpart").html("<a href='${pageContext.request.contextPath}/user/showcreateuserform'>register</a>");
+		$("#adminpart").html("Admin login")
 	}
 	else if(username!=""){
 		$("#loginpart").html("<a href='${pageContext.request.contextPath}/user/selfinfo'>Self center</a>")
 		$("#registerpart").html("<a href='${pageContext.request.contextPath}/user/logout'>logout</a>")
+		$("#adminpart").html("<a href='${pageContext.request.contextPath}/recipe/showcreaterecipeform'>Create recipe</a>")
 	}
 }
 </script>
@@ -28,14 +30,14 @@ window.onload=function(){
 <body>
 <div class="topbar">
 		<div class="col-xs-2"></div>
-		<div class="col-xs-4">Welcome to our website</div>
+		<div class="col-xs-4">Free recipe and delicious food</div>
 		<div class="col-xs-1" id="loginpart">
 		<a href="${pageContext.request.contextPath}/user/loginpage">Login</a>
 		</div>
 		<div class="col-xs-1" id="registerpart">
 		<a href="${pageContext.request.contextPath}/user/showcreateuserform">register</a>
 		</div>
-		<div class="col-xs-2">Admin login</div>
+		<div class="col-xs-2" id="adminpart">Admin login</div>
 </div>
 <div id="myCarousel" class="carousel">
     <ol class="carousel-indicators">
@@ -45,13 +47,13 @@ window.onload=function(){
     </ol>   
     <div class="carousel-inner">
         <div class="item active">
-            <a href="##"><img src="<c:url value="/resources/decimg/homeimg1.jpg" />" alt="First slide" width="1200px" height="200px"></a>
+            <a href="##"><img src="<c:url value="/resources/decimg/home1.jpg" />" alt="First slide"  style="height:400px;width:1300px" ></a>
         </div>
         <div class="item">
-            <a href="##"><img src="<c:url value="/resources/decimg/homeimg2.jpg" />" alt="Second slide" width="1200px" height="200px"></a>
+            <a href="##"><img src="<c:url value="/resources/decimg/home3.png" />" alt="Second slide" style="height:400px;width:1300px"></a>
         </div>
         <div class="item">
-            <a href="##"><img src="<c:url value="/resources/decimg/homeimg3.jpeg" />" alt="Third slide" width="1200px" height="200px"></a>
+            <a href="##"><img src="<c:url value="/resources/decimg/homeimg3.jpeg" />" alt="Third slide" style="height:400px;width:1300px"></a>
         </div>
     </div>
     	<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
@@ -65,15 +67,15 @@ window.onload=function(){
 </div>
 <div class="row" id="navparts">
 	<div class="col-xs-4" id="recipepart">
-	<img src="<c:url value="/resources/decimg/recipe.jpg" />" height="200px" width="300px"/></br>
+	<img src="<c:url value="/resources/decimg/recipepart.jpg" />" height="280px" width="356px"/></br>
 	<a href="${pageContext.request.contextPath}/recipe/allrecipes">Look recipes</a>
 	</div>
 	<div class="col-xs-4" id="awardpart">
-	<img src="<c:url value="/resources/decimg/qa.jpg" />" height="200px" width="300px"/></br>
-	Award questions</div>
+	<img src="<c:url value="/resources/decimg/qapart.jpg" />" height="280px" width="356px"/></br>
+	<a href="${pageContext.request.contextPath}/allquestions">Award questions</a></div>
 	<div class="col-xs-4" id="mallpart">
-	<img src="<c:url value="/resources/decimg/mall.png" />" height="200px" width="300px"/></br>
-	Shopping mall</div>
+	<img src="<c:url value="/resources/decimg/mallpart.jpg" />" height="280px" width="356px"/></br>
+	<a href="${pageContext.request.contextPath}/shop">Shopping mall</a></div>
 </div>
 </body>
 </html>
