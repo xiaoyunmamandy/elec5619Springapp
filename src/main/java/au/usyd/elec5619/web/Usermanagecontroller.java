@@ -92,6 +92,15 @@ public class Usermanagecontroller {
 			return new ModelAndView("home", "model", myModel);
 		}
 	}
+	//登出
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
+		request.getSession().setAttribute("username", "");
+		request.getSession().setAttribute("userid", "");
+		Map<String, Object> myModel = new HashMap<String, Object>();
+		myModel.put("username", "logout");
+		return new ModelAndView("home","model",myModel);
+	}
 	//进入个人中心 个人信息详情
 	@RequestMapping(value = "/selfinfo", method = RequestMethod.GET)
 	public ModelAndView showselfcenter(HttpServletRequest request, HttpServletResponse response) {
