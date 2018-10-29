@@ -54,8 +54,11 @@ function submitvalification(){
 </head>
 <body>
 <div class="topbar">
-	<h3>create your recipe here</h3>
-	<a href="https://www.baidu.com/">Back to homepage</a>
+	<div class="col-xs-2"></div>
+	<div class="col-xs-4">create your recipe here</div>
+	<div class="col-xs-2"></div>
+	<div class="col-xs-2"><a href="${pageContext.request.contextPath}/">Back to homepage</a></div>
+	
 </div>
 
 <form action="/elec5619Springapp/recipe/addrecipetotal" method="post" enctype="multipart/form-data" onsubmit="return submitvalification();">

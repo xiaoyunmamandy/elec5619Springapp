@@ -11,15 +11,15 @@ a{
 }
 #recipepart{
 	background-color:#F0F8ED;
-	height:800px;
+	height:400px;
 }
 #awardpart{
 	background-color:#EAEDF6;
-	height:800px;
+	height:400px;
 }
 #mallpart{
 	background-color:#EBE2DD;
-	height:800px;
+	height:400px;
 }
 #myCarousel{
 	height:400px;
@@ -27,7 +27,7 @@ a{
 #navparts{
 	margin-left:20px;
 	margin-right:20px;
+	padding-top:10px;
 	text-align:center;
-	color:black;
 	margin-top:10px;
 }

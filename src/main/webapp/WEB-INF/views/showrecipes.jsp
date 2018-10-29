@@ -1,9 +1,14 @@
 <%@ include file="/WEB-INF/views/include.jsp"%>
 <html>
 <head>
-<style type="text/css">@import url("<c:url value='/resources/css/recipepage.css'/>");</style>
+<style type="text/css">@import url("<c:url value='/resources/css/recipepage.css'/>");
+	.backbutton{
+	color:white;
+}
+</style>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
 <script type="text/javascript">
 	window.onload = function() {
 		var categoryid = ${model.categoryid};
@@ -57,13 +62,13 @@
 </script>
 </head>
 <body>
-	<input type="button" value="showcategory" onclick="test();"/>
 	<div class="topbar">
 		<div class="col-xs-2"></div>
-		<div class="col-xs-5">Get your recipes here!</div>
-		<div class="col-xs-2">Back to homepage</div>
-		<div class="col-xs-3">Welcome: ${model.username}</div>
+	<div class="col-xs-4">All recipes</div>
+	<div class="col-xs-2"></div>
+	<div class="col-xs-2"><a href="${pageContext.request.contextPath}/" class="backbutton">Back to homepage</a></div>
 	</div>
+	<div>
 	<form:select path="category" name="categoryID" id="categorieslist">
 		<form:option value="0">All category</form:option>
 		<c:forEach items="${category}" var="category">
@@ -76,7 +81,7 @@
 		<option value="2">no more than 40 mins</option>
 		<option value="3">no more than 60 mins</option>
 	</select>
-	<input type="button" value="search" id="searchrecipe" class="btn btn-primary" onclick="search();"/>
+	<input type="button" value="search" id="searchrecipe" class="btn btn-primary" onclick="search();"/></div></br>
 	<div id="recipesdiv">
 	<table id="recipeslistbox">
 		<%

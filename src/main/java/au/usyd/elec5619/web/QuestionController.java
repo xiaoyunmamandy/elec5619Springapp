@@ -65,7 +65,7 @@ public class QuestionController {
 		//System.out.println(questionslist.get(0).getTitle());
 		myModel.put("questions", questionslist);
 		HttpSession session = request.getSession(true);
-		if(session.getAttribute("username")!="") {
+		if(session.getAttribute("username")!=null) {
 			String username = (String)session.getAttribute("username");
 			int userid = (Integer) session.getAttribute("userid");
 			System.out.println(username);

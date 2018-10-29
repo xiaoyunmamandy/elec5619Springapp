@@ -3,6 +3,9 @@
 <head>
 <style type="text/css">
 @import url("<c:url value='/resources/css/selfcenter.css'/>");
+.backbutton{
+color:white;
+}
 </style>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -13,29 +16,27 @@
 		<div class="col-xs-3" id="navigationbar"><jsp:include
 				page="selfcentermaster.jsp"></jsp:include></div>
 		<div class="col-xs-9" id="contentdiv">
-			<div class="topbar">My questions</div>
+			<div class="topbar">
+		<div class="col-xs-2"></div>
+		<div class="col-xs-4">My question</div>
+		<div class="col-xs-2"></div>
+		<div class="col-xs-2"><a href="${pageContext.request.contextPath}/" class="backbutton">Back to homepage</a></div>
+		</div>
 			<div>
-				<table>
+				<h3>Question</h3>
+				<table class="table table-striped">
 					<tr>
-						<td>Title:</td>
-						<td>${model.question.getTitle()}</td>
+						<td><img src="<c:url value="/resources/decimg/questionmark.png" />" height="20px" width="20px"/>&nbsp Title: ${model.question.getTitle()}</td>
+						<td><img src="<c:url value="/resources/decimg/point.png" />" height="20px" width="20px"/>&nbsp Award: ${model.question.getWorth()}</td>
 
 					</tr>
 					<tr>
-						<td>Award:</td>
-						<td>${model.question.getWorth()}</td>
-
+						<td colspan="2">Description:</td>
 					</tr>
-					<tr>
-						<td>Description:</td>
-						<td>${model.question.getDescription()}</td>
-					</tr>
-					<tr>
-						<td>User:</td>
-						<td>${model.question.getQuestionId()}</td>
-					</tr>
+					<tr><td colspan="2">${model.question.getDescription()}</td></tr>
 				</table>
-				Answers:
+				<h3>Answers</h3>
+				<table class="table table-striped">
 				<c:forEach items="${model.answers }" var="answer">
 				<form action="/elec5619Springapp/Award/${answer.getUserId()}" method="post">
 								<input type="submit" value="Best Answer" />
@@ -49,29 +50,27 @@
 						<input type="hidden" value="${model.user.id}" name="userid" /> <input
 							type="hidden" name="questionID"
 							value="${model.question.getQuestionId() }" id="questionid" />
-						<div>
 							<tr>
-								<td>${answer.getDescription()}</td>
-								<td>User : ${answer.getUserName() }</td>
-								
+								<td>Answer by : ${answer.getUserName() }</td>
+								<td>${answer.getDescription()}</td>	
 								<input type="hidden" name="answerID" +i
-									value="${answer.getUserName() }" />
+									value="${answer.getUserName() }" />	</tr>
 								<c:forEach items="${answer.getSub() }" var="sub">
-									<td>${sub.getDescription()}</td>
-									<td>User : ${sub.getUserName() }</td>
+								<tr>
+								<td></td>
+								<td>Reply: ${sub.getDescription()}</td>
+								</tr>
+									
 								</c:forEach>
+				</table>
 								<div>
-									Write your comment here :<input type="text" name="Sub" />
+									Write your comment here :<input type="text" name="Sub" /><input type="submit" value="submit" />
 								</div>
-								<input type="submit" value="submit" />
-							</tr>
-						</div>
-						<div></div>
-						<div></div>
 					</form>
 				</c:forEach>
 			</div>
 		</div>
+	</div>
 	</div>
 
 </body>

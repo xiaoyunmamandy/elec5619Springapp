@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import au.usyd.elec5619.domain.User;
 import au.usyd.elec5619.service.Recipecreater;
+import au.usyd.elec5619.service.Usercreater;
 
 /**
  * Handles requests for the application home page.
@@ -32,6 +35,8 @@ import au.usyd.elec5619.service.Recipecreater;
 public class HomeController {
 	@Autowired
 	private Recipecreater recipecreater;
+	@Autowired
+	private Usercreater usercreater;
 	
 //	public void setRecipecreater(Recipecreater recipecreater) {
 //		this.recipecreater = recipecreater;
@@ -43,41 +48,51 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	public ModelAndView home(Locale locale, Model model,HttpServletRequest request,HttpServletResponse response) {
 		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
-		return "home";
+		HttpSession session = request.getSession(true);
+		String username = (String)session.getAttribute("username");
+		Map<String, Object> myModel = new HashMap<String, Object>();
+		System.out.println(username);
+		if(username!=null) {
+			myModel.put("username", username);
+			int userid = (Integer) session.getAttribute("userid");
+			myModel.put("userid", userid);
+		}
+		return new ModelAndView("home", "model", myModel);
 	}
 	
 	@RequestMapping(value = "/admincenter", method = RequestMethod.GET)
 	public String admincenter(Model model) {
 		return "admincenter";
 	}
-	
-	@RequestMapping(value="/addpictureform", method=RequestMethod.GET)
-	public String showcreaterecipepic() {
-		return "addpicture";
-	}
-	//添加多张图片，带service调用
-	@RequestMapping(value="/addpictures", method=RequestMethod.POST)
-	public String addpictures(@RequestParam("dish_img") MultipartFile dishfile,@RequestParam("file_img") MultipartFile[] file, HttpServletRequest request,HttpServletResponse response) throws Exception, IOException{
-		String serverpath = request.getSession().getServletContext().getRealPath("img");
-		String dishurl = recipecreater.uploadpicture(dishfile,serverpath);
-		System.out.println(dishurl);
-		if(file!=null&&file.length>0) {
-			for(int i=0;i<file.length;i++) {
-				MultipartFile thefile = file[i];
-				String url = recipecreater.uploadpicture(thefile,serverpath);
-				System.out.println(url);
+	//显示登录页面
+		@RequestMapping(value = "/adminloginpage", method = RequestMethod.GET)
+		public String showloginpage() {
+			return "adminloginpage";
+		}
+		//登录
+		@RequestMapping(value = "/adminlogin", method = RequestMethod.POST)
+		public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
+			String username = request.getParameter("adusername");
+			String pwd = request.getParameter("password");
+			int result = usercreater.adminlogincheck(username, pwd);
+			if(result==1) {
+				Map<String, Object> myModel = new HashMap<String, Object>();
+				myModel.put("nouser", 1);
+				myModel.put("pwdfalse", 0);
+				return new ModelAndView("adminloginpage", "model", myModel);
+			}
+			else if(result==0) {
+				Map<String, Object> myModel = new HashMap<String, Object>();
+				myModel.put("nouser", 0);
+				myModel.put("pwdfalse", 1);
+				return new ModelAndView("adminloginpage", "model", myModel);
+			}
+			else {
+				Map<String, Object> myModel = new HashMap<String, Object>();
+				return new ModelAndView("admincenter", "model", myModel);
 			}
 		}
-		return "home";
-	}
+
 }

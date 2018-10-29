@@ -1,23 +1,40 @@
 <%@ include file="/WEB-INF/views/include.jsp" %>
 <html>
 <head><title>Hello :: Spring Application for recipe sharing</title>
-<style type="text/css">@import url("<c:url value='/resources/css/recipepage.css'/>");</style>
+<style type="text/css">@import url("<c:url value='/resources/css/qa.css'/>");
+.backbutton{
+	font-size:15px;
+}
+.bigtextbox{
+height:100;
+width:500;
+}
+</style>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript">
 </script>
 </head>
 <body>
 <div class="topbar">
-	<h3>create your question here</h3>
-	<a href="https://www.baidu.com/">Back to homepage</a>
+	<div class="col-xs-2"></div>
+	<div class="col-xs-4">Create a question</div>
+	<div class="col-xs-2"></div>
+	<div class="col-xs-2"><a href="${pageContext.request.contextPath}/" class="backbutton">Back to homepage</a></div>
 </div>
-
+<div id="contentdiv">
+<div id="questiondiv">
+<table class="table table-striped">
 <form action="/elec5619Springapp/addquestions" method="post" >
 	<input type="hidden" value="${userid }" name="userid" id="userid"/>
-	<div>title:<input type="text" name="title"/></div>
-	<div>award:<input type="text" name="Worth"/></div>
-    <div>description:<input type="text" name="description"/></div>
-	<input type="submit" value="submit"/>
+	<tr><td>Title:<input type="text" name="title"/></td></tr>
+	<tr><td>Award:<input type="text" name="Worth"/></td></tr>
+    <tr><td>Description:</td></tr>
+    <tr><td><input type="text" name="description" class="bigtextbox"/></td></tr>
+    <tr><td><input type="submit" value="submit"/></td></tr>
 	</form>
+</table>
+</div>
+</div>
+
 </body>
 </html>

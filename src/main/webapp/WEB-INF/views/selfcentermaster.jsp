@@ -3,6 +3,9 @@
 <head>
 <title>self center</title>
 <style type="text/css">
+.navlink{
+color:white;
+}
 </style>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -14,10 +17,10 @@
 	username: ${model.user.userName }</br>points: ${model.user.points }
 	</div>
 	<div id="contentbar">
-	<a href="${pageContext.request.contextPath}/user/selfinfo"/>Profile</a></br>
-	<a href="${pageContext.request.contextPath}/recipe/userrecipe/${model.user.id }"/>My recipes</a></br>
-	<a href="${pageContext.request.contextPath}/recipe/mycollection/${model.user.id }"/>My collections</a></br>
-	<a href="${pageContext.request.contextPath}/userquestions/${model.user.id }"/>My questions</a></br>
+	<a href="${pageContext.request.contextPath}/user/selfinfo" class="navlink"/>Profile</a></br></br>
+	<a href="${pageContext.request.contextPath}/recipe/userrecipe/${model.user.id }" class="navlink"/>My recipes</a></br></br>
+	<a href="${pageContext.request.contextPath}/recipe/mycollection/${model.user.id }" class="navlink"/>My collections</a></br></br>
+	<a href="${pageContext.request.contextPath}/userquestions/${model.user.id }" class="navlink"/>My questions</a></br></br>
 	
 	</div>
 

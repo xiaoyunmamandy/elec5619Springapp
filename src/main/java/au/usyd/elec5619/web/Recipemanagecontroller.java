@@ -213,7 +213,11 @@ public class Recipemanagecontroller {
 			if(ifcollected) {
 				myModel.put("collect", 1);
 			}
+			else {
+				myModel.put("collect", 0);
+			}
 		}
+		myModel.put("collect", 0);
 		List<Comment> commentlist = commentcreater.getcommentbyID(id);
 		myModel.put("comments", commentlist);
 		return new ModelAndView("recipedetail","model",myModel);

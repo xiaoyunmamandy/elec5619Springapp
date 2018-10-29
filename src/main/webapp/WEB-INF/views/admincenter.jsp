@@ -13,7 +13,7 @@
 		<div class="col-xs-3" id="navigationbar"><jsp:include
 				page="adminmaster.jsp"></jsp:include></div>
 		<div class="col-xs-9" id="contentdiv">
-			<div class="topbar">Admin center</div>
+			<div class="topbar">Admin center <a href="${pageContext.request.contextPath}/user/logout">Log out</a></div>
 		</div>
 	</div>
 </body>

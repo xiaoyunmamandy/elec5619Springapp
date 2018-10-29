@@ -18,7 +18,12 @@ function checklogin(){
 </script>
 </head>
 <body>
-<div>${username }</div>
+<div class="topbar">
+	<div class="col-xs-2"></div>
+	<div class="col-xs-4">Point redeem mall</div>
+	<div class="col-xs-2"></div>
+	<div class="col-xs-2"><a href="${pageContext.request.contextPath}/">Back to homepage</a></div>
+</div>
 <input type="hidden" value="${userid }" id="userid"/>
 	<div class="Ann">
 		<div class="row">

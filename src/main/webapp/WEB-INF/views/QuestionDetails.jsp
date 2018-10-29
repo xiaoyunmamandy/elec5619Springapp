@@ -4,6 +4,9 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <style type="text/css">
 @import url("<c:url value="/resources/css/qa.css"/>");
+.backbutton{
+	font-size:15px;
+}
 </style>
 <script type="text/javascript">
 function checklogin(){
@@ -21,7 +24,14 @@ function checklogin(){
 <body>
 <form action="/elec5619Springapp/addanswers" method="post" onsubmit="return checklogin();">
 <input type="hidden" value="${model.user.id }" name="userid" id="userid"/>
-<div class="topbar">Question details ${model.username}</div>
+
+	<div class="topbar">
+	<div class="col-xs-2"></div>
+	<div class="col-xs-4">Question detail</div>
+	<div class="col-xs-2"></div>
+	<div class="col-xs-2"><a href="${pageContext.request.contextPath}/" class="backbutton">Back to homepage</a></div>
+</div>
+
 <div id="contentdiv">
 	<div id="questiondiv">
 	<h3>Question</h3>

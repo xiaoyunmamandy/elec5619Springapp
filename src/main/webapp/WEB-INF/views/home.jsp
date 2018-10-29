@@ -8,6 +8,11 @@
 	<script src="http://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style type="text/css">
 @import url("<c:url value='/resources/css/home.css'/>");
+.navlink{
+color:black;
+font-size:20px;
+font-weight:bold;
+}
 </style>
 <script type="text/javascript">
 window.onload=function(){
@@ -38,7 +43,7 @@ window.onload=function(){
 		<a href="${pageContext.request.contextPath}/user/showcreateuserform">register</a>
 		</div>
 		<div class="col-xs-2" id="adminpart">
-		<a href="${pageContext.request.contextPath}/admincenter">Admin login</a></div>
+		<a href="${pageContext.request.contextPath}/adminloginpage">Admin login</a></div>
 </div>
 <div id="myCarousel" class="carousel">
     <ol class="carousel-indicators">
@@ -69,14 +74,14 @@ window.onload=function(){
 <div class="row" id="navparts">
 	<div class="col-xs-4" id="recipepart">
 	<img src="<c:url value="/resources/decimg/recipepart.jpg" />" height="280px" width="356px"/></br>
-	<a href="${pageContext.request.contextPath}/recipe/allrecipes">Look recipes</a>
+	<a href="${pageContext.request.contextPath}/recipe/allrecipes" class="navlink">Look recipes</a>
 	</div>
 	<div class="col-xs-4" id="awardpart">
 	<img src="<c:url value="/resources/decimg/qapart.jpg" />" height="280px" width="356px"/></br>
-	<a href="${pageContext.request.contextPath}/allquestions">Award questions</a></div>
+	<a href="${pageContext.request.contextPath}/allquestions" class="navlink">Award questions</a></div>
 	<div class="col-xs-4" id="mallpart">
 	<img src="<c:url value="/resources/decimg/mallpart.jpg" />" height="280px" width="356px"/></br>
-	<a href="${pageContext.request.contextPath}/shop">Shopping mall</a></div>
+	<a href="${pageContext.request.contextPath}/shop" class="navlink">Shopping mall</a></div>
 </div>
 </body>
 </html>

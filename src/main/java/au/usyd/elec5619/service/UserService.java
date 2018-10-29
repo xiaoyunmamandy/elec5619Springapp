@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import au.usyd.elec5619.domain.Admin;
 import au.usyd.elec5619.domain.User;
 import au.usyd.elec5619.DAO.*;
 import au.usyd.elec5619.service.*;
@@ -20,6 +21,8 @@ public class UserService implements Usercreater {
 
 	@Autowired
 	public UserDAO userDAO;
+	@Autowired
+	public AdminDAO adminDAO;
 
 	// 注册 
 	public void addUser(User user) {
@@ -81,6 +84,25 @@ public class UserService implements Usercreater {
 		int newpoint = minuser.getPoints()-point;
 		minuser.setPoints(newpoint);
 		userDAO.updateUser(minuser);
+	}
+	//管理员登录
+	public int adminlogincheck(String adminName, String pwd) {
+		Admin admin = adminDAO.getuserbyname(adminName);
+		if(admin==null) {
+			System.out.println("not exist");
+			//用户不存在
+			return 1;
+		}
+		else if(pwd.equals(admin.getPassword())) {
+			//登录成功
+			System.out.println("success");
+			return 2;
+		}
+		else {
+			//密码不匹配
+			System.out.println("password fail");
+			return 0;
+		}
 	}
 
 	

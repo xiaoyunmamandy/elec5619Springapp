@@ -23,4 +23,5 @@ public interface Usercreater extends Serializable{
 	public int logincheck(String email, String pwd);
 	public User getuserbyemail(String email);
 	public void trade(int point,int adduserid, int minuserid);
+	public int adminlogincheck(String adminName, String pwd);
 }

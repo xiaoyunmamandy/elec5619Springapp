@@ -3,6 +3,9 @@
 <head>
 <style type="text/css">
 @import url("<c:url value='/resources/css/recipepage.css'/>");
+.backbutton{
+color:white;
+}
 </style>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -11,13 +14,15 @@ window.onload=function(){
 
 		
 	var reuserid = $("#reuserid").val();
-	alert(reuserid)
 	var url = "${pageContext.request.contextPath}/user/getuser/"+reuserid;
 	$.get(url,function(data){
 		var username = data.userName;
-		alert(username)
 		$("#reusername").html(username);
 	})
+	var collected = ${model.collect}
+	if(collected==1){
+		$("#collectbtn").hide();
+	}
 }
 function collectrecipe(){
 	var recipeID = $("#recipeid").val();
@@ -39,9 +44,9 @@ function collectrecipe(){
 	<div class="topbar">
 		<div class="row" id="titlediv">
 			<div class="col-xs-2"></div>
-			<div class="col-xs-5">Recipe details</div>
-			<div class="col-xs-2">Back to homepage</div>
-			<div class="col-xs-3">Welcome: ${model.username}</div>
+	<div class="col-xs-4">All recipes</div>
+	<div class="col-xs-2"></div>
+	<div class="col-xs-2"><a href="${pageContext.request.contextPath}/" class="backbutton">Back to homepage</a></div>
 		</div>
 	</div>
 	<input type="hidden" name="recipeID" value="${model.recipes.recipeID }"
@@ -102,6 +107,13 @@ function collectrecipe(){
 	</div>
 	<div>
 	Comments:
+	<div>
+	<form action="/elec5619Springapp/comments/addcomment" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="recipeID" value="${model.recipes.recipeID }"
+		id="recipeid" />
+	<input type="text" name="description"/>
+	<input type="submit" value="add my comment"/>
+	</form></div>
 		<c:forEach items="${model.comments }" var="comment">
 		<form action="/elec5619Springapp/comments/addsub/${comment.getCommentID()}" method="post" >
 				<input type="hidden" name="recipeID" value="${model.recipes.recipeID }"
@@ -115,7 +127,7 @@ function collectrecipe(){
 				          <td> User : ${sub.getUserName() }</td>
 				      </c:forEach>
 				    <div>Write your comment here :<input type="text" name="Sub"/></div>
-    	                   <input type="submit" value="submit"/>
+    	                   <input type="submit" value="reply"/>
 				      </tr>
 			    </div>
 			    <div> </div>
@@ -123,12 +135,7 @@ function collectrecipe(){
          </form>
 		</c:forEach>
 		
-	<form action="/elec5619Springapp/comments/addcomment" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="recipeID" value="${model.recipes.recipeID }"
-		id="recipeid" />
-	<input type="text" name="description"/>
-	<input type="submit" value="submit"/>
-	</form>
+	
 	</div>
 </body>
 </html>
