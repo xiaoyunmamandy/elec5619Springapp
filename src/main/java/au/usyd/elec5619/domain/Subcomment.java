@@ -16,15 +16,25 @@ public class Subcomment implements Serializable{
 	private int SubcommentID;
 	private int userID;
 	private String description;
+	private String userName;
 	
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	public Subcomment() {
 		super();
 	}
 	
-	public Subcomment(String description, int userID) {
+	public Subcomment(String description, int userID, String userName) {
 		super();
 		this.description = description;
 		this.userID = userID;
+		this.userName = userName;
 	}
 	
 	

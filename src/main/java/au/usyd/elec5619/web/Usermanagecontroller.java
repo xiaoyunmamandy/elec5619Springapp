@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import au.usyd.elec5619.domain.Category;
 import au.usyd.elec5619.domain.User;
 import au.usyd.elec5619.service.Usercreater;
 import au.usyd.elec5619.service.Recipecreater;
@@ -156,18 +157,6 @@ public class Usermanagecontroller {
 		return "getrecipebyid";
 	}
 
-	// 5 change the type of userid from int to string
-//	@RequestMapping(value = "/deleteuser/{userID}", method = RequestMethod.GET)
-//	public String deleterecipe(@PathVariable("userID") int userID, HttpServletRequest request,
-//			HttpServletResponse response) {
-//		usercreater.deleteUser(userID);
-//		return "redirect:/recipe/userrecipe/1";
-//	}
-
-	// 7 add user
-
-	// update information
-
 	@RequestMapping(value = "/updateinformation/{userID}", method = RequestMethod.GET)
 	public ModelAndView updatepage(@PathVariable("userID") int userID, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -239,6 +228,14 @@ public class Usermanagecontroller {
 		// myModel.put("password", user.getPassword());
 		// myModel.put("email", user.getEmail());
 		return new ModelAndView("personalinformation", "model", myModel);
+	}
+	
+	//api 输入id返回用户
+	@RequestMapping(value="/getuser/{userid}", method=RequestMethod.GET)
+	@ResponseBody
+	public User getallcategoryapitest(@PathVariable("userid") int userid) {
+		User user = usercreater.getUserById(userid);
+		return user;
 	}
 
 }

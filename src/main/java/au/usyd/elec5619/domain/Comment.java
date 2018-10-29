@@ -29,17 +29,28 @@ public class Comment implements Serializable{
 	
 	@Column(name="Subcomment",nullable=false)
 	private ArrayList<Subcomment> subcomment;
+	@Column(name="userName", nullable=false,unique=true)
+	private String userName;
 	
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	public Comment() {
 		super();
 	}
 	
-	public Comment(int userID, String description, int recipeID, ArrayList<Subcomment> sub) {
+	public Comment(int userID, String description, int recipeID, ArrayList<Subcomment> sub,String userName) {
 		super();
 		this.userID = userID;
 		this.description = description;
 		this.recipeID = recipeID;
 		this.subcomment = sub;
+		this.userName = userName;
 	}
 	
 	public int getCommentID() {

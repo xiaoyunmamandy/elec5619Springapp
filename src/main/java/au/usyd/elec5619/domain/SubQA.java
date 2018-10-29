@@ -14,16 +14,24 @@ import javax.persistence.Table;
 public class SubQA implements Serializable {
     private String description;
 	private int userId;
+	private String userName;
 
 
 	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	public SubQA() {
 		super();
 	}
-	public SubQA(String description, int userId) {
+	public SubQA(String description, int userId, String userName) {
 		super();
 		this.description = description;
 		this.userId = userId;
+		this.userName = userName;
 	}
 	
 	public String getDescription() {

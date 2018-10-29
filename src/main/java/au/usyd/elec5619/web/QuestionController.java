@@ -52,7 +52,8 @@ public class QuestionController {
 	//Ìí¼Óquestion
 	@RequestMapping(value="/addquestions", method=RequestMethod.POST)
 	public String addquestions(HttpServletRequest request,HttpServletResponse response){
-		Questions question = new Questions(request.getParameter("title"),request.getParameter("description"),true,Integer.parseInt(request.getParameter("userid")),Integer.parseInt(request.getParameter("Worth")));
+		User user = usercreater.getUserById(Integer.parseInt(request.getParameter("userid")));
+		Questions question = new Questions(request.getParameter("title"),request.getParameter("description"),true,Integer.parseInt(request.getParameter("userid")),Integer.parseInt(request.getParameter("Worth")),user.getUserName());
 		questionManager.addquestion(question);
 		return "redirect:/allquestions";
 	}
@@ -61,7 +62,7 @@ public class QuestionController {
 	public ModelAndView getallquestions(HttpServletRequest request,HttpServletResponse response) {
 		List<Questions> questionslist = questionManager.getallquestions();
 		Map<String, Object> myModel = new HashMap<String, Object>();
-		System.out.println(questionslist.get(0).getTitle());
+		//System.out.println(questionslist.get(0).getTitle());
 		myModel.put("questions", questionslist);
 		HttpSession session = request.getSession(true);
 		if(session.getAttribute("username")!="") {

@@ -24,7 +24,8 @@ public interface AnswerManager extends Serializable{
 	public List<Answers> getanswersbyID(int questionID);
 	
 	public void addsub(int anserID, SubQA sub);
-    	
+	
+	public void Award(int questionID, int answerID);
     
     
 }

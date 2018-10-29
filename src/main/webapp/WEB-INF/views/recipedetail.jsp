@@ -8,11 +8,16 @@
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript">
 window.onload=function(){
-	var ifcollected = ${model.collect}
-	if(ifcollected==1){
-		alert("111")
-		$("#collectbtn").hide();
-	}
+
+		
+	var reuserid = $("#reuserid").val();
+	alert(reuserid)
+	var url = "${pageContext.request.contextPath}/user/getuser/"+reuserid;
+	$.get(url,function(data){
+		var username = data.userName;
+		alert(username)
+		$("#reusername").html(username);
+	})
 }
 function collectrecipe(){
 	var recipeID = $("#recipeid").val();
@@ -53,7 +58,7 @@ function collectrecipe(){
 					<tr>
 						<td rowspan="4"><img src="/imgUrl/${model.recipes.dishImg }"
 							height="200px" width="300px" /></td>
-						<td><img src="<c:url value="/resources/decimg/head.png" />" height="20px" width="20px"/>&nbspChef:&nbspMary</td>
+						<td><img src="<c:url value="/resources/decimg/head.png" />" height="20px" width="20px"/>&nbspChef:&nbsp<span id="reusername">${model.recipes.userID}</span></td>
 					</tr>
 					<tr>
 						<td><img src="<c:url value="/resources/decimg/time_icon.png" />" height="20px" width="20px"/>&nbspTime needed: ${model.recipes.cookTime} mins</td>
@@ -65,6 +70,7 @@ function collectrecipe(){
 						<td><img src="<c:url value="/resources/decimg/tag.png" />" height="20px" width="20px"/>&nbspcategory: ${model.categoryName}</td>
 					</tr>
 				</table>
+				<input type="hidden" value="${model.recipes.userID}" id="reuserid"/>
 				<input type="button" value="add to collection" id="collectbtn" class="btn btn-primary" onclick="collectrecipe();"/>
 				<div class="listdiv">
 					<h3>Ingredients</h3>
@@ -102,11 +108,11 @@ function collectrecipe(){
 		id="recipeid" />
 				<div> <tr>
 				      <td> ${comment.getDescription()}</td>
-				      <td> User : ${comment.getUserID() }</td>
+				      <td> User : ${comment.getUserName() }</td>
 				      <input type="hidden" name="commentID" value="${comment.getCommentID() }" />
 				      <c:forEach items="${comment.getSub() }" var="sub">
 				          <td> ${sub.getDescription()}</td>
-				          <td> User : ${sub.getUserID() }</td>
+				          <td> User : ${sub.getUserName() }</td>
 				      </c:forEach>
 				    <div>Write your comment here :<input type="text" name="Sub"/></div>
     	                   <input type="submit" value="submit"/>

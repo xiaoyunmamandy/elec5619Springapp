@@ -30,15 +30,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import au.usyd.elec5619.domain.Comment;
 import au.usyd.elec5619.domain.Subcomment;
+import au.usyd.elec5619.domain.User;
 import au.usyd.elec5619.service.Commentcreater;
+import au.usyd.elec5619.service.Usercreater;
 
 @Controller
 @RequestMapping(value="/comments/**")
 public class Commentmanagementcontroller {
 	@Autowired
 	private Commentcreater commentcreater;
-	
-	//添加页面
+	@Autowired
+	private Usercreater usercreater;
+
 	@RequestMapping(value="/showcommentform", method=RequestMethod.GET)
 	public String showaddform() {
 		return "addcomment";
@@ -47,11 +50,14 @@ public class Commentmanagementcontroller {
 	
 	
 	
-	//添加comments
+	//comments
 	@RequestMapping(value="/addcomment", method=RequestMethod.POST)
 	public String addcomment(HttpServletRequest request,HttpServletResponse response) {
 		ArrayList<Subcomment> sub = new ArrayList<Subcomment>();
-		Comment comment = new Comment(1,request.getParameter("description"),Integer.parseInt(request.getParameter("recipeID")),sub);
+		HttpSession session = request.getSession(true);
+		String username = (String)session.getAttribute("username");
+		int userid = (Integer)session.getAttribute("userid");
+		Comment comment = new Comment(userid,request.getParameter("description"),Integer.parseInt(request.getParameter("recipeID")),sub,username);
 		commentcreater.addcomment(comment);
 		
 		return "home";
@@ -71,7 +77,10 @@ public class Commentmanagementcontroller {
 	
 	@RequestMapping(value="/addsub/{id}", method=RequestMethod.POST)
 	public String addsub(@PathVariable("id") int id,HttpServletRequest request,HttpServletResponse response)  throws Exception, IOException {
-		Subcomment sub = new Subcomment(request.getParameter("Sub"),1);
+		HttpSession session = request.getSession(true);
+		String username = (String)session.getAttribute("username");
+		int userid = (Integer)session.getAttribute("userid");
+		Subcomment sub = new Subcomment(request.getParameter("Sub"),userid,username);
 		commentcreater.addsub(id,sub);
 		return "home";
 	}

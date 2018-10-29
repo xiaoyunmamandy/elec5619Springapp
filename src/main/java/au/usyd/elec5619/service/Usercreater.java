@@ -22,7 +22,5 @@ public interface Usercreater extends Serializable{
 	public List<User> getallusers();
 	public int logincheck(String email, String pwd);
 	public User getuserbyemail(String email);
-	public void addpoint(int addpoint,int userid);
-	public void minpoint(int minpoint,int userid);
-	
+	public void trade(int point,int adduserid, int minuserid);
 }

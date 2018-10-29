@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import au.usyd.elec5619.DAO.AnswerDao;
+import au.usyd.elec5619.DAO.QuestionDao;
 import au.usyd.elec5619.domain.Answers;
 import au.usyd.elec5619.domain.Questions;
 import au.usyd.elec5619.domain.SubQA;
@@ -23,6 +24,8 @@ public class SimpleAnswerManager implements AnswerManager {
 	
 	@Autowired
 	public AnswerDao answerDao;
+	@Autowired
+	public QuestionDao questionDao;
 	
 	
 	
@@ -77,6 +80,14 @@ public class SimpleAnswerManager implements AnswerManager {
 		Answers a = answerDao.getanswerbyId(answerID);
 		a.addSub(sub);
 		answerDao.updateAnswer(a);
+	}
+	
+	public void Award(int questionID, int answerID) {
+		Questions q = questionDao.getquestionbyID(questionID);
+		q.setState(false);
+		Answers a = answerDao.getanswerbyId(answerID);
+		a.setAcceptence(true);
+		
 	}
 
 }

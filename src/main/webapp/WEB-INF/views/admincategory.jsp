@@ -2,7 +2,6 @@
 <html>
 <head><title>Hello :: Spring Application for recipe sharing</title>
 <style type="text/css">
-@import url("<c:url value="/resources/css/main.css"/>");
 @import url("<c:url value="/resources/css/admin.css"/>");
 </style>
 <script

@@ -37,6 +37,13 @@
 				</table>
 				Answers:
 				<c:forEach items="${model.answers }" var="answer">
+				<form action="/elec5619Springapp/Award/${answer.getUserId()}" method="post">
+								<input type="submit" value="Best Answer" />
+								<input type="hidden" value="${model.question.getWorth()}" name="point" />
+							    <input type="hidden" value="${model.user.id}" name="userid" />
+							    <input type="hidden" name="answerID"value="${answer.getAnswerId() }" />
+							    <input type="hidden" name="questionID" value="${model.question.getQuestionId() }" id="questionid" />
+								</form>
 					<form action="/elec5619Springapp/addsub/${answer.getAnswerId()}"
 						method="post">
 						<input type="hidden" value="${model.user.id}" name="userid" /> <input
@@ -45,12 +52,13 @@
 						<div>
 							<tr>
 								<td>${answer.getDescription()}</td>
-								<td>User : ${answer.getUserId() }</td>
+								<td>User : ${answer.getUserName() }</td>
+								
 								<input type="hidden" name="answerID" +i
-									value="${answer.getAnswerId() }" />
+									value="${answer.getUserName() }" />
 								<c:forEach items="${answer.getSub() }" var="sub">
 									<td>${sub.getDescription()}</td>
-									<td>User : ${sub.getUserId() }</td>
+									<td>User : ${sub.getUserName() }</td>
 								</c:forEach>
 								<div>
 									Write your comment here :<input type="text" name="Sub" />

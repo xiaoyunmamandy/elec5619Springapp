@@ -21,7 +21,7 @@ public class UserService implements Usercreater {
 	@Autowired
 	public UserDAO userDAO;
 
-	// зЂВс
+	// зЂВс 
 	public void addUser(User user) {
 		userDAO.addUser(user);
 	}
@@ -68,17 +68,20 @@ public class UserService implements Usercreater {
 		System.out.println("1111");
 		return userlist;
 	}
-	public void addpoint(int addpoint,int userid) {
-		User user = userDAO.getUserById(userid);
-		int newpoint = user.getPoints()+addpoint;
-		user.setPoints(newpoint);
-		userDAO.updateUser(user);
+	public void trade(int point,int adduserid, int minuserid) {
+		System.out.println(adduserid);
+		System.out.println(minuserid);
+		if(adduserid != 0) {
+			User adduser = userDAO.getUserById(adduserid);
+		    int newpoint = adduser.getPoints()+point;
+		    adduser.setPoints(newpoint);
+		    userDAO.updateUser(adduser);
+		}
+		User minuser = userDAO.getUserById(minuserid);
+		int newpoint = minuser.getPoints()-point;
+		minuser.setPoints(newpoint);
+		userDAO.updateUser(minuser);
 	}
-	public void minpoint(int minpoint,int userid) {
-		User user = userDAO.getUserById(userid);
-		int newpoint = user.getPoints()-minpoint;
-		user.setPoints(newpoint);
-		userDAO.updateUser(user);
-	}
+
 	
 }

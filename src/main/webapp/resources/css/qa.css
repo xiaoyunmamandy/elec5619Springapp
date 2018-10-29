@@ -1,0 +1,29 @@
+.topbar{
+height:70px;
+background-color:#EAEDF6;
+margin-bottom:10px;
+font-size:30px;
+font-weight:bold;
+padding-top:20px;
+text-align:center;
+}
+#contentdiv{
+text-align:center;	
+}
+#questiondiv{
+	width:60%;
+	margin:auto;
+}
+#answersdiv{
+	width:60%;
+	margin:auto;
+}
+#topanswer{
+	background-color:#c0c0c0;
+}
+#subanswer{
+	background-color:#EAEDF6;
+}
+#questionlist{
+	width:60%;
+}

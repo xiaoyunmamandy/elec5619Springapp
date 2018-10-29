@@ -47,7 +47,8 @@ public class AnswerController {
 	@RequestMapping(value="/addanswers", method=RequestMethod.POST)
 	public String addanswers(HttpServletRequest request,HttpServletResponse response)  throws Exception, IOException {
 		ArrayList<SubQA> sub = new ArrayList<SubQA>();
-		Answers answer = new Answers(Integer.parseInt(request.getParameter("questionID")),0,request.getParameter("Answers"),false,Integer.parseInt(request.getParameter("userid")),sub);
+		User user = usercreater.getUserById(Integer.parseInt(request.getParameter("userid")));
+		Answers answer = new Answers(Integer.parseInt(request.getParameter("questionID")),0,request.getParameter("Answers"),false,Integer.parseInt(request.getParameter("userid")),sub,user.getUserName());
 		answerManager.addanswer(answer);
 		return "redirect:questiondetails/"+Integer.parseInt(request.getParameter("questionID"));
 	}
@@ -68,10 +69,23 @@ public class AnswerController {
 	
 	@RequestMapping(value="/addsub/{id}", method=RequestMethod.POST)
 	public String addsub(@PathVariable("id") int id,HttpServletRequest request,HttpServletResponse response)  throws Exception, IOException {
-		SubQA sub = new SubQA(request.getParameter("Sub"),Integer.parseInt(request.getParameter("userid")));
+		User user = usercreater.getUserById(Integer.parseInt(request.getParameter("userid")));
+		SubQA sub = new SubQA(request.getParameter("Sub"),Integer.parseInt(request.getParameter("userid")),user.getUserName());
 		System.out.println(id);
 		int questionID = Integer.parseInt(request.getParameter("questionID"));
 		answerManager.addsub(id,sub);
 		return "redirect:/UserQuestion/"+questionID;
 	}
+	
+	
+	@RequestMapping(value="/Award/{id}", method=RequestMethod.POST)
+	public String Award(@PathVariable("id") int id,HttpServletRequest request,HttpServletResponse response)  throws Exception, IOException {
+        System.out.println("111");
+		int answerID = Integer.parseInt(request.getParameter("answerID"));
+		int questionID = Integer.parseInt(request.getParameter("questionID"));
+		answerManager.Award(questionID, answerID);
+		usercreater.trade(Integer.parseInt(request.getParameter("point")),id,Integer.parseInt(request.getParameter("userid")));
+		return "home";
+	}
+	
 }

@@ -1,6 +1,7 @@
 package au.usyd.elec5619.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -29,18 +30,27 @@ public class Questions implements Serializable {
 	private int userId;
 	@Column(name="Worth")
 	private int Worth;
+	@Column(name="userName")
+	private String userName;
 
 	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	public Questions() {
 		super();
 	}
-	public Questions(String title, String description, boolean state, int userId, int Worth) {
+	public Questions(String title, String description, boolean state, int userId, int Worth,String userName) {
 		super();
 		this.title = title;
 		this.description = description;
 		this.State = state;
 		this.userId = userId;
 		this.Worth = Worth;
+		this.userName = userName;
 	}
 	
 	public int getQuestionId() {

@@ -2,6 +2,7 @@ package au.usyd.elec5619.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -32,7 +33,17 @@ public class Answers implements Serializable {
 	private boolean acceptence;
 	@Column(name="userId")
 	private int userId;
+	@Column(name="userName")
+	private String userName;
 	
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	public Answers() {
 		super();
 	}
@@ -45,7 +56,7 @@ public class Answers implements Serializable {
 		this.acceptence = acceptence;
 		this.userId = userId;
 	}
-	public Answers(int questionID, int parentID, String description, boolean acceptence, int userId, ArrayList<SubQA> sub) {
+	public Answers(int questionID, int parentID, String description, boolean acceptence, int userId, ArrayList<SubQA> sub, String userName) {
 		super();
 		this.questionID = questionID;
 		this.parentID=parentID;
@@ -53,6 +64,7 @@ public class Answers implements Serializable {
 		this.acceptence = acceptence;
 		this.userId = userId;
 		this.sub = sub;
+		this.userName = userName;
 	}
 	
 	public int getAnswerId() {
