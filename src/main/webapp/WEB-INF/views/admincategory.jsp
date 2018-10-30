@@ -42,7 +42,9 @@ function check() {
 		<div class="col-xs-3" id="navigationbar"><jsp:include
 				page="adminmaster.jsp"></jsp:include></div>
 		<div class="col-xs-9" id="contentdiv">
-			<div class="topbar">Manage the categories of recipes</div>
+			<div class="topbar">Manage the categories of recipes
+			<a href="${pageContext.request.contextPath}/user/logout">logout</a>
+			</div>
 			<div>
 			<div>add new category: <input type="text" id="categoryName"/>
 			<input type="button" value="add" onclick="addcategory()"/>

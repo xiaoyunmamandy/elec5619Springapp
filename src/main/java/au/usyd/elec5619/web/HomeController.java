@@ -54,7 +54,7 @@ public class HomeController {
 		String username = (String)session.getAttribute("username");
 		Map<String, Object> myModel = new HashMap<String, Object>();
 		System.out.println(username);
-		if(username!=null) {
+		if(username!=null&&username!="") {
 			myModel.put("username", username);
 			int userid = (Integer) session.getAttribute("userid");
 			myModel.put("userid", userid);
@@ -91,6 +91,8 @@ public class HomeController {
 			}
 			else {
 				Map<String, Object> myModel = new HashMap<String, Object>();
+				request.getSession().setAttribute("username", "");
+				request.getSession().setAttribute("userid", 0);
 				return new ModelAndView("admincenter", "model", myModel);
 			}
 		}

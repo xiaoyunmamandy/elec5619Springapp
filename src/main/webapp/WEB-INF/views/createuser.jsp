@@ -72,33 +72,6 @@
 	            </form>
 	        </div><!-- /card-container -->
 	  </div><!-- /container -->
-	<form action="/elec5619Springapp/user/adduser" method="post"
-		enctype="multipart/form-data" onsubmit="return submitvalification()">
-		<div class="row">
-
-			<table id="register">
-				<tr>
-					<td>user name: <input type="text" name="userName"
-						id="username"></td>
-				</tr>
-				<tr>
-					<td>email: <input type="text" name="email" id="email"></td>
-				</tr>
-				<tr>
-					<td>password: <input type="text" name="password" id="password"></td>
-				</tr>
-				<tr>
-					<td>confirm password: <input type="text"
-						name="comfirm password" id="cpassword"></td>
-				</tr>
-				<tr>
-					<td>Profile photo: <input type="file" name="personImg"
-						id="personImg" /></td>
-				</tr>
-
-			</table>
-		</div>
-		<input type="submit" value="submit" />
-	</form>
+	
 </body>
 </html>

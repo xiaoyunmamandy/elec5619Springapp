@@ -45,11 +45,8 @@ color:white;
 							value="${model.question.getQuestionId() }" id="questionid" />
 							<tr>
 								<td>Answer by : ${answer.getUserName() }</td> 
-								<% if(${answer.getAcceptence()}==true) {%>
-								<td>
-								<%} %>	
-								Best Answer!</td>
 								<td>${answer.getDescription()}</td>	
+								<td>${answer.getAcceptence()}</td>
 								<input type="hidden" name="answerID" +i
 									value="${answer.getUserName() }" />	</tr>
 								<c:forEach items="${answer.getSub() }" var="sub">

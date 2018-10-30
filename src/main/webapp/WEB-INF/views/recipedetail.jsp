@@ -6,9 +6,6 @@
 .backbutton{
 color:white;
 }
-body{
-background-image: url(1.jpg);
-}
 </style>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -30,7 +27,6 @@ window.onload=function(){
 function collectrecipe(){
 	var recipeID = $("#recipeid").val();
 	var userid = $("#userid").val();
-	alert(userid)
 	if(userid==""){
 		alert("please login first!")
 	}
@@ -118,6 +114,7 @@ function collectrecipe(){
 	<input type="text" name="description"/>
 	<input type="submit" value="add my comment"/>
 	</form></div>
+	<table class="table table-striped">
 		<c:forEach items="${model.comments }" var="comment">
 		<form action="/elec5619Springapp/comments/addsub/${comment.getCommentID()}" method="post" >
 				<input type="hidden" name="recipeID" value="${model.recipes.recipeID }"
@@ -125,20 +122,22 @@ function collectrecipe(){
 				<div> <tr>
 				      <td> ${comment.getDescription()}</td>
 				      <td> User : ${comment.getUserName() }</td>
-				      <input type="hidden" name="commentID" value="${comment.getCommentID() }" />
+				      <input type="hidden" name="commentID" value="${comment.getCommentID() }" /></tr>
 				      <c:forEach items="${comment.getSub() }" var="sub">
+				      <tr>
+				      		<td></td>
 				          <td> ${sub.getDescription()}</td>
-				          <td> User : ${sub.getUserName() }</td>
+				          <td> User : ${sub.getUserName() }</td></tr>
 				      </c:forEach>
-				    <div>Write your comment here :<input type="text" name="Sub"/></div>
-    	                   <input type="submit" value="reply"/>
-				      </tr>
+				    <tr><td colspan="3">Write your reply here :<input type="text" name="Sub"/> <input type="submit" value="reply"/></td></tr>
+    	                  
+				      
 			    </div>
 			    <div> </div>
 			    <div> </div>
          </form>
 		</c:forEach>
-		
+		</table>
 	
 	</div>
 </body>

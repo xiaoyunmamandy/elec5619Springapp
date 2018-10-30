@@ -59,7 +59,9 @@ function checklogin(){
 		<c:forEach items="${model.answers }" var="answer">
 			<tr id="topanswer">
 				<td> Answer by : ${answer.getUserName() }</td>
+				<input type="hidden" name="acceptence" value="${model.answer.getAcceptence() }"/>
 		      <td> ${answer.getDescription()}</td>
+		      <td>${answer.getAcceptence()}</td>
 		      
 	      </tr>
 	    <c:forEach items="${answer.getSub() }" var="sub">

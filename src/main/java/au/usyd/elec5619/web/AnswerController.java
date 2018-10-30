@@ -96,7 +96,7 @@ public class AnswerController {
 		int questionID = Integer.parseInt(request.getParameter("questionID"));
 		answerManager.Award(questionID, answerID);
 		usercreater.trade(Integer.parseInt(request.getParameter("point")),id,Integer.parseInt(request.getParameter("userid")));
-		return "home";
+		return "redirect:/UserQuestion/"+questionID;
 	}
 	
 }

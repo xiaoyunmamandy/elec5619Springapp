@@ -41,7 +41,7 @@ window.onload=function(){
 		alert("log out success!")
 		$("#loginpart").html("<a href='${pageContext.request.contextPath}/user/loginpage'>Login</a>");
 		$("#registerpart").html("<a href='${pageContext.request.contextPath}/user/showcreateuserform'>register</a>");
-		$("#adminpart").html("Admin login")
+		$("#adminpart").html("<a href='${pageContext.request.contextPath}/adminloginpage'>Admin login</a>")
 	}
 	else if(username!=""){
 		$("#loginpart").html("<a href='${pageContext.request.contextPath}/user/selfinfo'>Self center</a>")

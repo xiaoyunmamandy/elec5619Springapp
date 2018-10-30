@@ -82,7 +82,8 @@ public class Commentmanagementcontroller {
 		int userid = (Integer)session.getAttribute("userid");
 		Subcomment sub = new Subcomment(request.getParameter("Sub"),userid,username);
 		commentcreater.addsub(id,sub);
-		return "home";
+		int recipeID = Integer.parseInt(request.getParameter("recipeID"));
+		return "redirect:/recipe/recipedetails/"+recipeID;
 	}
 	
 	//delete comments

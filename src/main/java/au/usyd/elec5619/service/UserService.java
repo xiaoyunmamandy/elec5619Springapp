@@ -72,15 +72,13 @@ public class UserService implements Usercreater {
 		return userlist;
 	}
 	public void trade(int point,int adduserid, int minuserid) {
-		System.out.println(adduserid);
-		System.out.println(minuserid);
 		if(adduserid != 0) {
 			User adduser = userDAO.getUserById(adduserid);
 		    int newpoint = adduser.getPoints()+point;
 		    adduser.setPoints(newpoint);
 		    userDAO.updateUser(adduser);
 		}
-		else if(minuserid!=0) {
+		if(minuserid!=0) {
 			User minuser = userDAO.getUserById(minuserid);
 			int newpoint = minuser.getPoints()-point;
 			minuser.setPoints(newpoint);
