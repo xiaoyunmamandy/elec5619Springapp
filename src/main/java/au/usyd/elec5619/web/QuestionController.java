@@ -80,7 +80,6 @@ public class QuestionController {
 		List<Questions> questionslist = questionManager.getquestionsbyuser(userid);
 		User user = usercreater.getUserById(userid);
 		Map<String, Object> myModel = new HashMap<String, Object>();
-		System.out.println(questionslist.get(0).getTitle());
 		myModel.put("questions", questionslist);
 		myModel.put("user", user);
 		return new ModelAndView("userquestions","model",myModel);
@@ -89,6 +88,17 @@ public class QuestionController {
 	@RequestMapping(value="/questiondetails/{id}", method=RequestMethod.GET)
 	public ModelAndView showrecipedetails(@PathVariable("id") int id,HttpServletRequest request,HttpServletResponse response) {
 		Questions question = questionManager.getquestionbyID(id);
+		if(question.getState()==false) {
+			Map<String, Object> myModel = new HashMap<String, Object>();
+			myModel.put("question", question);
+			List<Answers> answerslist = answerManager.getanswersbyID(id);
+			myModel.put("answers", answerslist);
+			HttpSession session = request.getSession(true);
+			int userid = (Integer)session.getAttribute("userid");
+			User user = usercreater.getUserById(userid);
+			myModel.put("user", user);
+			return new ModelAndView("questiondetailfinish","model",myModel);
+		}
 		Map<String, Object> myModel = new HashMap<String, Object>();
 		myModel.put("question", question);
 		List<Answers> answerslist = answerManager.getanswersbyID(id);

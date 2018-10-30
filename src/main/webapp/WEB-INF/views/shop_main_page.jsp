@@ -64,7 +64,7 @@ function checklogin(){
     						<td>${product.name}</td>
     					</tr>
     					<tr>
-    						<td>${product.price} &nbsp <a href="order/add/${product.id}/${userid}" onclick="return checklogin();"><img src="<c:url value="/resources/decimg/cart.png"/>" style="width:18px; height: 18px;"/></a></td>
+    						<td>${product.price} &nbsp <a href="order/add/${product.id}/${userid}/0" onclick="return checklogin();"><img src="<c:url value="/resources/decimg/cart.png"/>" style="width:18px; height: 18px;"/></a></td>
     					</tr>
     				</table>		
 				</div>

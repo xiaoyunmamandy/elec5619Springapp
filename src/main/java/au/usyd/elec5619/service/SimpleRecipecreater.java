@@ -191,10 +191,13 @@ public class SimpleRecipecreater implements Recipecreater{
 	//获得这个用户对某菜谱的收藏
 	public boolean checkcollection(int userID, int recipeID) {
 		Collection collection = collectionDAO.getcollection(userID, recipeID);
+		System.out.println(collection);
 		if(collection==null) {
+			System.out.println("111");
 			return false;
 		}
 		else {
+			System.out.println("222");
 			return true;
 		}
 	}

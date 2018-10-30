@@ -81,9 +81,9 @@ public class Recipemanagecontroller {
 			String dishpath = recipecreater.uploadpicture(dishfile,serverpath);
 			//创建step list
 			List<Step> steplist = new ArrayList<Step>();
+			int stepid=1;
 			for (int i = 0; i < description.length; i++ ) {		
-	            Step step = new Step();
-	            int stepid=1;
+	            Step step = new Step(); 
 	            step.setstepsno(stepid);
 	            step.setdescription(description[i]);
 	            String imgpath;
@@ -102,7 +102,8 @@ public class Recipemanagecontroller {
 			int userid = (Integer) session.getAttribute("userid");
 			Recipe recipe1 = new Recipe(request.getParameter("recipeName"),Integer.parseInt(request.getParameter("cookTime")),Integer.parseInt(request.getParameter("servepeopleno")),dishpath ,request.getParameter("tips"),Integer.parseInt(request.getParameter("categoryID")), userid ,ingredientlist,steplist);
 			recipecreater.addrecipe(recipe1);
-			return "home";	
+			usercreater.trade(20, userid, 0);
+			return "redirect:/";	
 	}
 	
 	//加载更新页面 需要recipeid
@@ -203,6 +204,7 @@ public class Recipemanagecontroller {
 		myModel.put("steps", steplist);
 		myModel.put("categoryName", categoryName);
 		HttpSession session = request.getSession(true);
+		myModel.put("collect", 0);
 		if(session.getAttribute("username")!="") {
 			String username = (String)session.getAttribute("username");
 			int userid = (Integer) session.getAttribute("userid");
@@ -210,6 +212,7 @@ public class Recipemanagecontroller {
 			myModel.put("username", username);
 			myModel.put("userid", userid);
 			boolean ifcollected = recipecreater.checkcollection(userid, id);
+			System.out.println(ifcollected);
 			if(ifcollected) {
 				myModel.put("collect", 1);
 			}
@@ -217,7 +220,7 @@ public class Recipemanagecontroller {
 				myModel.put("collect", 0);
 			}
 		}
-		myModel.put("collect", 0);
+		
 		List<Comment> commentlist = commentcreater.getcommentbyID(id);
 		myModel.put("comments", commentlist);
 		return new ModelAndView("recipedetail","model",myModel);

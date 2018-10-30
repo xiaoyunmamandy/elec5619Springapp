@@ -22,14 +22,14 @@ public class Comment implements Serializable{
 	@Column(name="userID", nullable=false)
 	private int userID;
 	
-	@Column(name="description", nullable=false,unique=true)
+	@Column(name="description", nullable=false)
 	private String description;
 	@Column(name="recipeID", nullable=false)
 	private int recipeID;
 	
 	@Column(name="Subcomment",nullable=false)
 	private ArrayList<Subcomment> subcomment;
-	@Column(name="userName", nullable=false,unique=true)
+	@Column(name="userName", nullable=false)
 	private String userName;
 	
 	public String getUserName() {

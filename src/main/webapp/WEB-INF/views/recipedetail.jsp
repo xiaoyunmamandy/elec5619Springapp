@@ -6,6 +6,9 @@
 .backbutton{
 color:white;
 }
+body{
+background-image: url(1.jpg);
+}
 </style>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -34,6 +37,7 @@ function collectrecipe(){
 	else{
 		$.post("${pageContext.request.contextPath}/recipe/collectrecipe",{recipeID:recipeID,userid:userid},function(){
 			alert("you have collect the recipe!")
+			$("#collectbtn").hide();
 		})
 	}
 	

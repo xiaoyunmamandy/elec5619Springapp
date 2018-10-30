@@ -1,10 +1,23 @@
+<%@ include file="/WEB-INF/views/include.jsp"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE HTML>
 <html>
 <head>
 <title>Add Product Form</title>
-<style type="text/css">@import url("<c:url value="/resources/css/main.css"/>");</style>
+<style type="text/css">@import url("<c:url value="/resources/css/main.css"/>");
+.topbar{
+height:70px;
+background-color:#EAEDF6;
+margin-bottom:10px;
+font-size:30px;
+font-weight:bold;
+padding-top:20px;
+}
+.backbutton{
+	font-size:15px;
+}
+</style>
 <script type="text/javascript">
 function amountcheck(){
 	var currentamount = ${product.amount};
@@ -18,12 +31,22 @@ function amountcheck(){
 		return false;
 	}
 }
-
+window.onload=function(){
+	var pointcheck = ${pointcheck};
+	if(pointcheck==1){
+		$("errormessage").html(your points is not enough!);
+	}
+}
 
 </script>
 </head>
 <body>
-
+<div class="topbar">
+	<div class="col-xs-2"></div>
+	<div class="col-xs-4">All questions</div>
+	<div class="col-xs-2"></div>
+	<div class="col-xs-2"><a href="${pageContext.request.contextPath}/" class="backbutton">Back to homepage</a></div>
+</div>
 <div id="global">
 <form:form commandName="order" action="addorder" method="post" onsubmit="return amountcheck()"><!-- commandName means the name of the attribute of the model from Controller -->
     <fieldset>
@@ -61,6 +84,7 @@ function amountcheck(){
         </p>
     </fieldset>
 </form:form>
+<div id="errormessage"></div>
 </div>
 </body>
 </html>

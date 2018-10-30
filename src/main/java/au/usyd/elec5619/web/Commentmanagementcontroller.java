@@ -59,8 +59,8 @@ public class Commentmanagementcontroller {
 		int userid = (Integer)session.getAttribute("userid");
 		Comment comment = new Comment(userid,request.getParameter("description"),Integer.parseInt(request.getParameter("recipeID")),sub,username);
 		commentcreater.addcomment(comment);
-		
-		return "home";
+		int recipeID = Integer.parseInt(request.getParameter("recipeID"));
+		return "redirect:/recipe/recipedetails/"+recipeID;
 	}
 
 	//delete

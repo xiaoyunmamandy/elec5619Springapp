@@ -6,6 +6,12 @@
 .navlink{
 color:white;
 }
+#contentbar{
+	margin-top:20px;
+	color:white;
+	
+}
+
 </style>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

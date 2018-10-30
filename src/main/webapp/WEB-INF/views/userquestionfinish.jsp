@@ -38,22 +38,18 @@ color:white;
 				<h3>Answers</h3>
 				<table class="table table-striped">
 				<c:forEach items="${model.answers }" var="answer">
-				<tr><td>Answer by : ${answer.getUserName() } 				<form action="/elec5619Springapp/Award/${answer.getUserId()}" method="post">
-								<input type="submit" value="Best Answer" />
-								<input type="hidden" value="${model.question.getWorth()}" name="point" />
-							    <input type="hidden" value="${model.user.id}" name="userid" />
-							    <input type="hidden" name="answerID"value="${answer.getAnswerId() }" />
-							    <input type="hidden" name="questionID" value="${model.question.getQuestionId() }" id="questionid" />
-								</form></td>
-								<td>${answer.getDescription()}</td>	</tr>
-
 					<form action="/elec5619Springapp/addsub/${answer.getAnswerId()}"
 						method="post">
 						<input type="hidden" value="${model.user.id}" name="userid" /> <input
 							type="hidden" name="questionID"
 							value="${model.question.getQuestionId() }" id="questionid" />
 							<tr>
-								
+								<td>Answer by : ${answer.getUserName() }</td> 
+								<% if(${answer.getAcceptence()}==true) {%>
+								<td>
+								<%} %>	
+								Best Answer!</td>
+								<td>${answer.getDescription()}</td>	
 								<input type="hidden" name="answerID" +i
 									value="${answer.getUserName() }" />	</tr>
 								<c:forEach items="${answer.getSub() }" var="sub">
@@ -64,9 +60,7 @@ color:white;
 									
 								</c:forEach>
 				
-								<tr><td colspan="2">
-									Write your comment here :<input type="text" name="Sub" /><input type="submit" value="submit" />
-								</td></tr>
+				
 					</form>
 				</c:forEach>
 				</table>

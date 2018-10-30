@@ -8,6 +8,25 @@
 	<script src="http://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style type="text/css">
 @import url("<c:url value='/resources/css/home.css'/>");
+#recipepart{
+	background-color:#F0F8ED;
+	height:400px;
+}
+#awardpart{
+	background-color:#EAEDF6;
+	height:400px;
+}
+#mallpart{
+	background-color:#EBE2DD;
+	height:400px;
+}
+#navparts{
+	margin-left:20px;
+	margin-right:20px;
+	padding-top:10px;
+	text-align:center;
+	margin-top:10px;
+}
 .navlink{
 color:black;
 font-size:20px;

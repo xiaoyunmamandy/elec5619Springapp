@@ -80,10 +80,13 @@ public class UserService implements Usercreater {
 		    adduser.setPoints(newpoint);
 		    userDAO.updateUser(adduser);
 		}
-		User minuser = userDAO.getUserById(minuserid);
-		int newpoint = minuser.getPoints()-point;
-		minuser.setPoints(newpoint);
-		userDAO.updateUser(minuser);
+		else if(minuserid!=0) {
+			User minuser = userDAO.getUserById(minuserid);
+			int newpoint = minuser.getPoints()-point;
+			minuser.setPoints(newpoint);
+			userDAO.updateUser(minuser);
+		}
+		
 	}
 	//¹ÜÀíÔ±µÇÂ¼
 	public int adminlogincheck(String adminName, String pwd) {

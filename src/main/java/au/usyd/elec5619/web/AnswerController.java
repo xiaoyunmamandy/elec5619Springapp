@@ -56,6 +56,17 @@ public class AnswerController {
 	@RequestMapping(value="/UserQuestion/{id}", method=RequestMethod.GET)
 	public ModelAndView showrecipedetails(@PathVariable("id") int id,HttpServletRequest request,HttpServletResponse response) {
 		Questions question = questionManager.getquestionbyID(id);
+		if(question.getState()==false) {
+			Map<String, Object> myModel = new HashMap<String, Object>();
+			myModel.put("question", question);
+			List<Answers> answerslist = answerManager.getanswersbyID(id);
+			myModel.put("answers", answerslist);
+			HttpSession session = request.getSession(true);
+			int userid = (Integer)session.getAttribute("userid");
+			User user = usercreater.getUserById(userid);
+			myModel.put("user", user);
+			return new ModelAndView("userquestionfinish","model",myModel);
+		}
 		Map<String, Object> myModel = new HashMap<String, Object>();
 		myModel.put("question", question);
 		List<Answers> answerslist = answerManager.getanswersbyID(id);
