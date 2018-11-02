@@ -45,19 +45,28 @@ public class Usermanagecontroller {
 	// 显示注册页面
 	@RequestMapping(value = "/showcreateuserform", method = RequestMethod.GET)
 	public String showcreateuserform() {
+		//Map<String, Object> myModel = new HashMap<String, Object>();
 		return "createuser";
 	}
 
 	// 注册（添加用户）
 	@RequestMapping(value = "/adduser", method = RequestMethod.POST)
-	public String register(HttpServletRequest request, HttpServletResponse response,
+	public ModelAndView register(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam("personImg") MultipartFile personImg) throws Exception, IOException {
 		String serverpath = request.getSession().getServletContext().getRealPath("img");
 		String personImgpath = recipecreater.uploadpicture(personImg, serverpath);
 		User user = new User(request.getParameter("userName"), request.getParameter("password"),
 				request.getParameter("email"), 3, personImgpath);
-		usercreater.addUser(user);
-		return "home";
+		boolean result = usercreater.addUser(user);
+		Map<String, Object> myModel = new HashMap<String, Object>();
+		if(result) {
+			myModel.put("registerresult", 1);
+			return new ModelAndView("home","model", myModel);
+		}
+		else {
+			myModel.put("registerresult", 0);
+			return new ModelAndView("createuser","model", myModel);
+		}
 	}
 	//显示登录页面
 	@RequestMapping(value = "/loginpage", method = RequestMethod.GET)
@@ -169,23 +178,6 @@ public class Usermanagecontroller {
 		return new ModelAndView("updateinformation", "model", myModel);
 	}
 
-
-//	@RequestMapping(value = "/updateinformation", method = RequestMethod.POST)
-//	// the parameter which need to send to updaterecipe(i dont know)
-//	public String updaterecipe(HttpServletRequest request, HttpServletResponse response, int userid, String userName,
-//			String password, String email) throws Exception, IOException {
-//		User user = new User();
-//		user.setName(userName);
-//		user.setPassword(password);
-//		user.setEmail(email);
-//		user.setId(userid);
-//
-//		// int userID = 1;
-//		// User user1 = new
-//		// User(request.getParameter("userName"),request.getParameter("password"),request.getParameter("email"));
-//		usercreater.updateUser(user);
-//		return "redirect:/user/updateinformation/" + userid;
-//	}
 
 	// verify if the email has been used
 	@RequestMapping(value = "/register/{userID}", method = RequestMethod.GET)

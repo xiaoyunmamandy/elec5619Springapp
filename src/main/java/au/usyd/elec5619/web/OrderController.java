@@ -82,7 +82,7 @@ public class OrderController {
 		int point = price_c * amount;
 		User user = usercreater.getUserById(userid_c);
 		int currectpoint = user.getPoints();
-		if(point>currectpoint) {
+		if(point>=currectpoint) {
 			return "redirect:/order/add/"+product.getId()+"/"+userid+"/"+1;
 		}
 		else {

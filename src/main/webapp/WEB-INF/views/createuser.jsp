@@ -8,16 +8,11 @@
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript">
-	function validate_email(field,alerttxt)
-	{
-	with (field)
-	{
-	apos=value.indexOf("@")
-	dotpos=value.lastIndexOf(".")
-	if (apos<1||dotpos-apos<2) 
-	  {alert(alerttxt);return false}
-	else {return true}
-	}
+	window.onload = function(){
+		var emailexist = ${model.registerresult};
+		if(emailexist==0){
+			$("#errormessage").html("the email has been registered please try another one!");
+		}
 	}
 	function submitvalification() {
 		var username = $('#inputName').val();
@@ -70,6 +65,7 @@
 	                <p id="errormessage"></p>
 	                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
 	            </form>
+	            <div id="errormessage"></div>
 	        </div><!-- /card-container -->
 	  </div><!-- /container -->
 	

@@ -23,10 +23,10 @@ color:white;
 	username: ${model.user.userName }</br>points: ${model.user.points }
 	</div>
 	<div id="contentbar">
-	<a href="${pageContext.request.contextPath}/user/selfinfo" class="navlink"/>Profile</a></br></br>
-	<a href="${pageContext.request.contextPath}/recipe/userrecipe/${model.user.id }" class="navlink"/>My recipes</a></br></br>
-	<a href="${pageContext.request.contextPath}/recipe/mycollection/${model.user.id }" class="navlink"/>My collections</a></br></br>
-	<a href="${pageContext.request.contextPath}/userquestions/${model.user.id }" class="navlink"/>My questions</a></br></br>
+	<img src="<c:url value="/resources/decimg/profile.png" />" height="20px" width="20px"/>&nbsp<a href="${pageContext.request.contextPath}/user/selfinfo" class="navlink"/>Profile</a></br></br>
+	<img src="<c:url value="/resources/decimg/recipe-icon-6.png" />" height="20px" width="20px"/>&nbsp<a href="${pageContext.request.contextPath}/recipe/userrecipe/${model.user.id }" class="navlink"/>My recipes</a></br></br>
+	<img src="<c:url value="/resources/decimg/folder_document.png" />" height="20px" width="20px"/>&nbsp<a href="${pageContext.request.contextPath}/recipe/mycollection/${model.user.id }" class="navlink"/>My collections</a></br></br>
+	<img src="<c:url value="/resources/decimg/QA-17.png" />" height="20px" width="20px"/>&nbsp<a href="${pageContext.request.contextPath}/userquestions/${model.user.id }" class="navlink"/>My questions</a></br></br>
 	
 	</div>
 

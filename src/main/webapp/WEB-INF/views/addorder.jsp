@@ -43,7 +43,7 @@ window.onload=function(){
 <body>
 <div class="topbar">
 	<div class="col-xs-2"></div>
-	<div class="col-xs-4">All questions</div>
+	<div class="col-xs-4">Add order</div>
 	<div class="col-xs-2"></div>
 	<div class="col-xs-2"><a href="${pageContext.request.contextPath}/" class="backbutton">Back to homepage</a></div>
 </div>

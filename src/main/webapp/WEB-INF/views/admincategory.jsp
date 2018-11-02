@@ -3,12 +3,16 @@
 <head><title>Hello :: Spring Application for recipe sharing</title>
 <style type="text/css">
 @import url("<c:url value="/resources/css/admin.css"/>");
+.backbutton{
+color:white;
+}
 </style>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript">
 window.onload=function(){
 	$.get("${pageContext.request.contextPath}/recipe/categoriestest",function(data){
+		
 		var str = ""
 		for(i=0;i<data.length;i++){
 			str = str + "<tr><td>"+ data[i].categoryName+"</td><td><a href='${pageContext.request.contextPath}/recipe/categorydelete/"+data[i].categoryID+"' onclick='return check();'>delete</a></td></tr>";
@@ -41,15 +45,20 @@ function check() {
 <div class="row">
 		<div class="col-xs-3" id="navigationbar"><jsp:include
 				page="adminmaster.jsp"></jsp:include></div>
-		<div class="col-xs-9" id="contentdiv">
-			<div class="topbar">Manage the categories of recipes
-			<a href="${pageContext.request.contextPath}/user/logout">logout</a>
+			<div class="topbar">
+			<div class="col-xs-2"></div>
+			<div class="col-xs-4">Manage category</div>
+			<div class="col-xs-1"></div>
+			<div class="col-xs-3"><a href="${pageContext.request.contextPath}/user/logout" class="backbutton">logout</a></div>
 			</div>
-			<div>
+			<div class="col-xs-9" id="contentdiv">
 			<div>add new category: <input type="text" id="categoryName"/>
 			<input type="button" value="add" onclick="addcategory()"/>
 			</div>
 			<table id="categorydiv" class="table table-striped"></table>
+			</div>
+			<div>
+			
 			</div>
 			
 		</div>

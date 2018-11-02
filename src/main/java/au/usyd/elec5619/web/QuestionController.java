@@ -47,6 +47,10 @@ public class QuestionController {
 	@RequestMapping(value="/CreateQuestion/{userid}", method=RequestMethod.GET)
 	public String CreateQuestion(@PathVariable("userid") int userid,Model model) {
 		model.addAttribute("userid", userid);
+		User user = usercreater.getUserById(userid);
+		int point = user.getPoints();
+		System.out.println(point);
+		model.addAttribute("currentpoints", point);
 		return "creatQuestions";
 	}
 	//Ìí¼Óquestion

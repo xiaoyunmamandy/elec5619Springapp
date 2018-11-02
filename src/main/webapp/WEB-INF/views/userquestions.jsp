@@ -6,12 +6,17 @@
 @import url("<c:url value='/resources/css/selfcenter.css'/>");
 .backbutton{
 color:white;
+font-size:15px;
+}
+#questionsdiv{
+ margin-top:10px;
+ margin-left:15px;
 }
 </style>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript">
-	
+
 </script>
 </head>
 <body>
@@ -20,11 +25,12 @@ color:white;
 				page="selfcentermaster.jsp"></jsp:include></div>
 		<div class="col-xs-9" id="contentdiv">
 			<div class="topbar">
-<div class="col-xs-2"></div>
-		<div class="col-xs-4">My question</div>
 		<div class="col-xs-2"></div>
-		<div class="col-xs-2"><a href="${pageContext.request.contextPath}/" class="backbutton">Back to homepage</a></div>
+		<div class="col-xs-4">My question</div>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-3"><a href="${pageContext.request.contextPath}/" class="backbutton">Back to homepage</a></div>
 			</div>
+		<div id="questionsdiv">
 			<form>
 				<c:forEach items="${model.questions }" var="question">
 					<a
@@ -36,6 +42,7 @@ color:white;
 					</a>
 				</c:forEach>
 			</form>
+			</div>
 		</div>
 	</div>
 

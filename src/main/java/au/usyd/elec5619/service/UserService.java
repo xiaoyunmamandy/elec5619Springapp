@@ -25,8 +25,16 @@ public class UserService implements Usercreater {
 	public AdminDAO adminDAO;
 
 	// ×¢²á 
-	public void addUser(User user) {
-		userDAO.addUser(user);
+	public boolean addUser(User user) {
+		User theuser = userDAO.getuserbyemail(user.getEmail());
+		if(theuser==null) {
+			userDAO.addUser(user);
+			return true;
+		}
+		else {
+			return false;
+		}
+		
 	}
 	//µÇÂ¼
 	public int logincheck(String email, String pwd) {

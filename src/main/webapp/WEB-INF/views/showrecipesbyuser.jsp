@@ -5,6 +5,7 @@
 @import url("<c:url value='/resources/css/selfcenter.css'/>");
 .backbutton{
 color:white;
+font-size:15px;
 }
 </style>
 <script
@@ -27,8 +28,8 @@ color:white;
 			<div class="topbar">
 			<div class="col-xs-2"></div>
 		<div class="col-xs-4">My recipe</div>
-		<div class="col-xs-2"></div>
-		<div class="col-xs-2"><a href="${pageContext.request.contextPath}/" class="backbutton">Back to homepage</a></div>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-3"><a href="${pageContext.request.contextPath}/" class="backbutton">Back to homepage</a></div>
 			</div>
 			<div>
 				<table class="table table-striped">

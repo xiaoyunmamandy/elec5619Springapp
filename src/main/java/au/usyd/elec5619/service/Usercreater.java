@@ -16,7 +16,7 @@ import au.usyd.elec5619.domain.User;
 public interface Usercreater extends Serializable{
 
 	
-	public void addUser(User user);
+	public boolean addUser(User user);
     public void updateUser(User user);
     public User getUserById(int id);
 	public List<User> getallusers();
